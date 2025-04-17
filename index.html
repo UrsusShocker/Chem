@@ -1,2325 +1,1757 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZA CHEMLIYAH💚💙</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --text-color: #f8fafc;
-            --accent-teal: #14b8a6;
-            --highlight-blue: #38bdf8;
-            --accent-light-teal: #99f6e4;
-
-            --glow-color-teal: rgba(20, 184, 166, 0.6);
-            --glow-color-blue: rgba(56, 189, 248, 0.6);
-            --glass-bg: rgba(20, 184, 166, 0.08);
-            --glass-border: rgba(20, 184, 166, 0.25);
-            --love-color: var(--highlight-blue);
-            --love-glow: var(--glow-color-blue);
-            --completed-color: var(--highlight-blue);
-            --completed-glow: var(--glow-color-blue);
-            --correct-color: #22c55e;
-            --incorrect-color: #ef4444;
-            --correct-glow: rgba(34, 197, 94, 0.6);
-            --incorrect-glow: rgba(239, 68, 68, 0.6);
-
-            --difficulty-easy: #22c55e;
-            --difficulty-medium: #facc15;
-            --difficulty-hard: #ef4444;
-            --difficulty-glow-easy: rgba(34, 197, 94, 0.5);
-            --difficulty-glow-medium: rgba(250, 204, 21, 0.5);
-            --difficulty-glow-hard: rgba(239, 68, 68, 0.5);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Nunito', sans-serif;
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        a, button, input[type="checkbox"], label, input[type="radio"] + label {
-             cursor: pointer;
-        }
-
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-color);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background-color: var(--accent-teal);
-            border-radius: 10px;
-            border: 2px solid var(--bg-color);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background-color: var(--highlight-blue);
-            box-shadow: 0 0 10px var(--glow-color-blue);
-        }
-
-        .particle-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0;
-            animation: float-orbit 20s infinite ease-in-out, twinkle 4s infinite alternate;
-            border: 1px solid var(--accent-teal);
-            box-shadow: 0 0 5px var(--glow-color-teal);
-        }
-        .particle.electron {
-             background-color: var(--highlight-blue);
-             border: none;
-             width: 3px !important;
-             height: 3px !important;
-             box-shadow: 0 0 6px var(--glow-color-blue);
-             animation-duration: 15s, 2s;
-        }
-
-        @keyframes float-orbit {
-            0% { transform: translate(0, 0) rotate(0deg) scale(0.8); opacity: 0.5; }
-            25% { transform: translate(20px, -30px) rotate(90deg) scale(1); opacity: 0.8; }
-            50% { transform: translate(-10px, 10px) rotate(180deg) scale(0.9); opacity: 0.7; }
-            75% { transform: translate(-25px, -15px) rotate(270deg) scale(1.1); opacity: 0.9; }
-            100% { transform: translate(0, 0) rotate(360deg) scale(0.8); opacity: 0.5; }
-        }
-
-        @keyframes twinkle {
-             0%, 100% { opacity: 0.6; }
-             50% { opacity: 1.0; }
-        }
-
-        #background-effects {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -2;
-            overflow: hidden;
-        }
-
-        .bg-bubble {
-            position: absolute;
-            bottom: -50px;
-            background-color: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            border-radius: 50%;
-            opacity: 0;
-            animation: bg-rise 15s infinite ease-in;
-            filter: blur(1px);
-        }
-         .bg-bubble.teal {
-             background-color: rgba(20, 184, 166, 0.1);
-             border: 1px solid rgba(20, 184, 166, 0.15);
-         }
-
-        @keyframes bg-rise {
-            0% { transform: translateY(0) scale(0.5); opacity: 0; }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
-        }
-
-        .floating-formula {
-            position: absolute;
-            top: 110%;
-            color: rgba(248, 250, 252, 0.05);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            opacity: 0;
-            animation: drift-formula 30s infinite linear alternate;
-            user-select: none;
-        }
-         @keyframes drift-formula {
-             0% { transform: translateY(0vh) translateX(0px) rotate(-10deg); opacity: 0; }
-             10% { opacity: 1; }
-             90% { opacity: 1; }
-             100% { transform: translateY(-120vh) translateX(50px) rotate(15deg); opacity: 0; }
-         }
-
-         #smoke-overlay {
-             position: fixed;
-             top: 0;
-             left: 0;
-             width: 100%;
-             height: 100%;
-             background: radial-gradient(ellipse at bottom left, rgba(15, 23, 42, 0.1) 0%, transparent 70%),
-                         radial-gradient(ellipse at top right, rgba(20, 184, 166, 0.05) 0%, transparent 60%);
-             background-size: 200% 200%;
-             opacity: 0.3;
-             z-index: -1;
-             pointer-events: none;
-             animation: smokeDrift 45s infinite alternate ease-in-out;
-             mix-blend-mode: overlay;
-         }
-
-         @keyframes smokeDrift {
-             from { background-position: 0% 0%; }
-             to { background-position: 100% 100%; }
-         }
-
-        #mouse-particle-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9998;
-        }
-
-        .mouse-particle {
-            position: absolute;
-            border-radius: 50%;
-            background: var(--accent-teal);
-            width: 4px;
-            height: 4px;
-            opacity: 1;
-            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-            transform: translate(-50%, -50%);
-            filter: blur(1px);
-        }
-
-
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: var(--text-color);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--glass-border);
-            z-index: 1000;
-            transition: background-color 0.3s ease;
-        }
-
-        .navbar .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--accent-teal);
-            text-decoration: none;
-            font-family: 'Audiowide', sans-serif;
-            text-shadow: 0 0 8px var(--glow-color-teal);
-        }
-
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 25px;
-        }
-
-        .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
-            position: relative;
-            padding-bottom: 5px;
-             font-family: 'Nunito', sans-serif;
-        }
-
-        .nav-links a::after {
-             content: '';
-             position: absolute;
-             width: 0;
-             height: 2px;
-             bottom: 0;
-             left: 50%;
-             transform: translateX(-50%);
-             background-color: var(--highlight-blue);
-             transition: width 0.3s ease;
-             box-shadow: 0 0 5px var(--glow-color-blue);
-        }
-
-        .nav-links a:hover {
-            color: var(--highlight-blue);
-            text-shadow: 0 0 8px var(--glow-color-blue);
-            transform: translateY(-2px);
-        }
-         .nav-links a:hover::after {
-             width: 100%;
-         }
-
-
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0;
-            z-index: 1010;
-        }
-
-        .menu-toggle span {
-            height: 3px;
-            width: 25px;
-            background: var(--accent-teal);
-            margin-bottom: 4px;
-            border-radius: 2px;
-            transition: all 0.3s ease;
-            transform-origin: center;
-            box-shadow: 0 0 3px var(--glow-color-teal);
-        }
-        .menu-toggle span:last-child {
-            margin-bottom: 0;
-        }
-
-        .menu-toggle.active span { background: var(--highlight-blue); box-shadow: 0 0 3px var(--glow-color-blue); }
-        .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-        .menu-toggle.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-        .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-
-        #hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            background: radial-gradient(ellipse at bottom, #1e3a8a 10%, var(--bg-color) 90%);
-            padding: 20px;
-        }
-        #hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image:
-                linear-gradient(rgba(20, 184, 166, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(20, 184, 166, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-            opacity: 0.5;
-            z-index: -1;
-            animation: backgroundShift 60s linear infinite;
-        }
-        @keyframes backgroundShift {
-            from { background-position: 0 0; }
-            to { background-position: 300px 300px; }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-            animation: fadeInHero 1s ease-out 0.5s forwards;
-        }
-
-        @keyframes fadeInHero {
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-
-        #hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.2rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-            color: var(--text-color);
-            text-shadow: 0 0 15px var(--glow-color-teal), 0 0 25px var(--glow-color-teal);
-            line-height: 1.3;
-        }
-
-        #hero p.subline {
-            font-size: 1.5rem;
-            color: var(--accent-light-teal);
-            margin-bottom: 45px;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 400;
-            text-shadow: 0 0 5px rgba(153, 246, 228, 0.5);
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(45deg, var(--accent-teal), var(--highlight-blue));
-            color: #020617;
-            padding: 16px 45px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease, background-position 0.8s ease, filter 0.4s ease;
-            text-decoration: none;
-            font-family: 'Audiowide', sans-serif;
-            box-shadow: 0 6px 20px var(--glow-color-blue), inset 0 0 5px rgba(248, 250, 252, 0.1);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            background-size: 200% 100%;
-            background-position: 0% 50%;
-            text-shadow: 1px 1px 2px rgba(15, 23, 42, 0.2);
-        }
-
-         .cta-button span {
-            position: relative;
-            z-index: 2;
-         }
-
-
-         .cta-button::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -100%;
-            width: 80%;
-            height: 200%;
-            background: linear-gradient(90deg, transparent, rgba(248, 250, 252, 0.15), transparent);
-            transition: left 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-            transform: skewX(-25deg);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-         .cta-button::after {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border: 2px solid transparent;
-            border-radius: inherit;
-            background: linear-gradient(45deg, var(--accent-teal), var(--highlight-blue)) border-box;
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: destination-out;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 0;
-         }
-
-
-        .cta-button:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 10px 30px var(--glow-color-blue), 0 0 15px var(--glow-color-teal), inset 0 0 8px rgba(248, 250, 252, 0.15), 0 0 25px var(--glow-color-teal);
-            background-position: 100% 50%;
-            filter: brightness(1.1);
-        }
-        .cta-button:hover::before {
-            left: 120%;
-        }
-         .cta-button:hover::after {
-             opacity: 1;
-         }
-
-         .cta-button:active {
-            transform: scale(1.01) translateY(0px);
-            box-shadow: 0 5px 15px var(--glow-color-blue), inset 0 0 5px rgba(248, 250, 252, 0.1);
-            filter: brightness(1);
-         }
-
-
-        section {
-            padding: 100px 10%;
-            position: relative;
-            overflow: hidden;
-            min-height: 60vh;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-         section.visible {
-            opacity: 1;
-            transform: translateY(0);
-         }
-        #hero { opacity: 1; transform: translateY(0); }
-
-
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 60px;
-            color: var(--accent-teal);
-            text-shadow: 0 0 10px var(--glow-color-teal);
-            letter-spacing: 1px;
-        }
-
-        h3 {
-            font-family: 'Audiowide', sans-serif;
-            color: var(--highlight-blue);
-            text-shadow: 0 0 6px var(--glow-color-blue);
-            margin-bottom: 25px;
-            text-align: center;
-            font-size: 1.6rem;
-        }
-
-        #goals {
-            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), #0c1f40 90%);
-        }
-
-        .goals-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .goal-list {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 30px 40px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(20, 184, 166, 0.1);
-            width: 100%;
-        }
-
-        .goal-list ul {
-            list-style: none;
-            columns: 2;
-            column-gap: 30px;
-        }
-
-        .goal-list li {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            font-size: 1rem;
-            color: var(--text-color);
-            position: relative;
-            overflow: hidden;
-            break-inside: avoid;
-            padding: 5px 0;
-        }
-
-        .goal-list input[type="checkbox"] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--accent-teal);
-            border-radius: 5px;
-            margin-right: 10px;
-            position: relative;
-            transition: background-color 0.2s ease, border-color 0.2s ease;
-            flex-shrink: 0;
-            z-index: 1;
-        }
-
-        .goal-list input[type="checkbox"]:checked {
-            background-color: var(--highlight-blue);
-            border-color: var(--highlight-blue);
-            box-shadow: 0 0 8px var(--glow-color-blue);
-        }
-
-        .goal-list input[type="checkbox"]::before {
-            content: '';
-            display: block;
-            width: 10px;
-            height: 10px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%230f172a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .goal-list input[type="checkbox"]:checked::before {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .goal-list label {
-            flex-grow: 1;
-            transition: color 0.2s ease, text-decoration 0.2s ease;
-            z-index: 1;
-        }
-
-        .goal-list input[type="checkbox"]:checked + label {
-            color: var(--accent-light-teal);
-            text-decoration: line-through;
-            text-decoration-color: var(--highlight-blue);
-            opacity: 0.7;
-        }
-
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background-color: rgba(56, 189, 248, 0.3);
-            transform: scale(0);
-            animation: ripple-effect 0.6s ease-out;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes ripple-effect {
-            to {
-                transform: scale(4);
-                opacity: 0;
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ZA CHEMLIYAH💚💙</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+        <style>
+            :root {
+                --bg-color: #0f172a;
+                --text-color: #f8fafc;
+                --accent-teal: #14b8a6;
+                --highlight-blue: #38bdf8;
+                --accent-light-teal: #99f6e4;
+
+                --glow-color-teal: rgba(20, 184, 166, 0.6);
+                --glow-color-blue: rgba(56, 189, 248, 0.6);
+                --glass-bg: rgba(20, 184, 166, 0.08);
+                --glass-border: rgba(20, 184, 166, 0.25);
+                --love-color: var(--highlight-blue);
+                --love-glow: var(--glow-color-blue);
+                --completed-color: var(--highlight-blue);
+                --completed-glow: var(--glow-color-blue);
+                --correct-color: #22c55e;
+                --incorrect-color: #ef4444;
+                --correct-glow: rgba(34, 197, 94, 0.6);
+                --incorrect-glow: rgba(239, 68, 68, 0.6);
+
+                --difficulty-easy: #22c55e;
+                --difficulty-medium: #facc15;
+                --difficulty-hard: #ef4444;
+                --difficulty-glow-easy: rgba(34, 197, 94, 0.5);
+                --difficulty-glow-medium: rgba(250, 204, 21, 0.5);
+                --difficulty-glow-hard: rgba(239, 68, 68, 0.5);
             }
-        }
 
-         #confetti-container {
-             position: fixed;
-             top: 0;
-             left: 0;
-             width: 100%;
-             height: 100%;
-             pointer-events: none;
-             z-index: 9999;
-             overflow: hidden;
-         }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-         .confetti {
-             position: absolute;
-             width: 8px;
-             height: 15px;
-             background-color: var(--highlight-blue);
-             opacity: 1;
-             animation: fall 3s linear forwards;
-         }
-         @keyframes fall {
-             0% {
-                 transform: translateY(-10vh) rotate(0deg);
-                 opacity: 1;
-             }
-             100% {
-                 transform: translateY(110vh) rotate(720deg);
-                 opacity: 0;
-             }
-         }
+            html {
+                scroll-behavior: smooth;
+            }
 
-         #flashcards {
-             background: linear-gradient(to bottom, #0c1f40, #0f172a 90%);
-         }
-         #flashcards h2 {
-            margin-bottom: 30px;
-         }
-         .flashcard-area {
-             max-width: 1000px;
-             margin: 0 auto;
-         }
-         .flashcard-topic-group {
-             margin-bottom: 50px;
-         }
+            body {
+                background-color: var(--bg-color);
+                color: var(--text-color);
+                font-family: 'Nunito', sans-serif;
+                overflow-x: hidden;
+                position: relative;
+                min-height: 100vh;
+            }
 
-         .flashcard-topic-header {
-             display: flex;
-             justify-content: space-between;
-             align-items: center;
-             margin-bottom: 25px;
-             border-bottom: 1px solid var(--glass-border);
-             padding-bottom: 10px;
-         }
-          .flashcard-topic-header h3 {
-             font-family: 'Audiowide', sans-serif;
-             color: var(--accent-teal);
-             text-shadow: 0 0 6px var(--glow-color-teal);
-             margin-bottom: 0;
-             text-align: left;
-             font-size: 1.8rem;
-             border-bottom: none;
-             padding-bottom: 0;
-          }
-
-         .shuffle-button {
-             background: var(--glass-bg);
-             border: 1px solid var(--glass-border);
-             color: var(--accent-teal);
-             padding: 6px 12px;
-             border-radius: 6px;
-             font-family: 'Audiowide', sans-serif;
-             font-size: 0.8rem;
-             transition: all 0.3s ease;
-             display: flex;
-             align-items: center;
-             gap: 5px;
-         }
-         .shuffle-button:hover {
-              background: var(--accent-teal);
-              color: var(--bg-color);
-              box-shadow: 0 0 10px var(--glow-color-teal);
-              transform: translateY(-1px);
-         }
-        .flashcard-container {
-             display: grid;
-             grid-template-columns: repeat(3, 1fr);
-             gap: 25px;
-             justify-content: center;
-         }
-
-         .flashcard {
-             background: var(--glass-bg);
-             border: 1px solid var(--glass-border);
-             border-radius: 10px;
-             min-height: 200px;
-             aspect-ratio: 3 / 2;
-             position: relative;
-             perspective: 1200px;
-             transform-style: preserve-3d;
-             transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
-             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-             opacity: 0;
-             transform: translateY(20px) scale(0.95);
-             transition: opacity 0.6s ease-out, transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
-             border-left: 4px solid transparent;
-         }
-          .flashcard.visible {
-              opacity: 1;
-              transform: translateY(0) scale(1);
-          }
-
-         .flashcard:hover {
-             transform: translateY(-5px) scale(1.03);
-             box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 0 20px var(--glow-color-teal), 0 0 10px var(--glow-color-blue);
-         }
-
-         .flashcard.flipped {
-             transform: rotateY(180deg);
-         }
-
-         .flashcard-inner {
-             width: 100%;
-             height: 100%;
-             text-align: center;
-             border-radius: inherit;
-             transform-style: preserve-3d;
-         }
+            a, button, input[type="checkbox"], label, input[type="radio"] + label {
+                cursor: pointer;
+            }
 
 
-         .flashcard-front, .flashcard-back {
-             position: absolute;
-             width: 100%;
-             height: 100%;
-             top: 0;
-             left: 0;
-             -webkit-backface-visibility: hidden;
-             backface-visibility: hidden;
-             padding: 20px;
-             padding-bottom: 35px;
-             display: flex;
-             align-items: center;
-             justify-content: center;
-             border-radius: inherit;
-             flex-direction: column;
-             overflow-y: auto;
-             overflow-x: hidden;
-         }
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
 
-         .flashcard-front {
-             background-color: transparent;
-             color: var(--text-color);
-             font-weight: 600;
-             font-size: 1.1rem;
-             z-index: 2;
-             transform: rotateY(0deg);
-         }
+            ::-webkit-scrollbar-track {
+                background: var(--bg-color);
+            }
 
-         .flashcard-back {
-             background-color: rgba(15, 23, 42, 0.9);
-             color: var(--accent-light-teal);
-             transform: rotateY(180deg);
-             font-size: 0.95rem;
-             line-height: 1.6;
-         }
-         .flashcard-diagram {
-             max-width: 80%;
-             max-height: 80px;
-             margin-top: 10px;
-             border-radius: 5px;
-             display: block;
-             margin-left: auto;
-             margin-right: auto;
-         }
-         .flashcard-tag {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 0.75rem;
-            color: var(--accent-teal);
-            opacity: 0.8;
-            font-family: 'Orbitron', sans-serif;
-            background: rgba(15, 23, 42, 0.6);
-            padding: 3px 6px;
-            border-radius: 4px;
-            z-index: 3;
-             -webkit-backface-visibility: hidden;
-             backface-visibility: hidden;
-        }
+            ::-webkit-scrollbar-thumb {
+                background-color: var(--accent-teal);
+                border-radius: 10px;
+                border: 2px solid var(--bg-color);
+            }
 
-        .flashcard-difficulty-controls {
-            position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 4;
-            background: rgba(15, 23, 42, 0.7);
-            padding: 4px 8px;
-            border-radius: 15px;
-             -webkit-backface-visibility: hidden;
-             backface-visibility: hidden;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-        .flashcard:hover .flashcard-difficulty-controls {
-            opacity: 1;
-        }
-        .difficulty-button {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            border: 2px solid rgba(248, 250, 252, 0.3);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            background-color: transparent;
-        }
-        .difficulty-button.easy { border-color: var(--difficulty-easy); }
-        .difficulty-button.medium { border-color: var(--difficulty-medium); }
-        .difficulty-button.hard { border-color: var(--difficulty-hard); }
+            ::-webkit-scrollbar-thumb:hover {
+                background-color: var(--highlight-blue);
+                box-shadow: 0 0 10px var(--glow-color-blue);
+            }
 
-        .difficulty-button.active {
-            transform: scale(1.2);
-        }
-        .difficulty-button.easy.active { background-color: var(--difficulty-easy); box-shadow: 0 0 5px var(--difficulty-glow-easy); }
-        .difficulty-button.medium.active { background-color: var(--difficulty-medium); box-shadow: 0 0 5px var(--difficulty-glow-medium); }
-        .difficulty-button.hard.active { background-color: var(--difficulty-hard); box-shadow: 0 0 5px var(--difficulty-glow-hard); }
-
-        .flashcard.difficulty-easy { border-left-color: var(--difficulty-easy); }
-        .flashcard.difficulty-medium { border-left-color: var(--difficulty-medium); }
-        .flashcard.difficulty-hard { border-left-color: var(--difficulty-hard); }
-
-
-        #lab-of-love {
-            background: linear-gradient(135deg, #1e40af, #1e3a8a);
-        }
-
-        .lab-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-
-        .message-item {
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 15px;
-            padding: 25px;
-            width: 100%;
-            max-width: 350px;
-            text-align: center;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(56, 189, 248, 0.1);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
-        }
-        .message-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .message-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--love-color);
-            text-shadow: 0 0 10px var(--love-glow);
-            display: block;
-            animation: iconPulse 2.5s infinite ease-in-out;
-        }
-
-        @keyframes iconPulse {
-             0%, 100% { transform: scale(1); }
-             50% { transform: scale(1.1); }
-        }
-        .message-item:nth-child(2) .message-icon { animation-delay: 0.3s; }
-        .message-item:nth-child(3) .message-icon { animation-delay: 0.6s; }
-
-
-        .icon-test-tube::before { content: '🧪'; }
-        .icon-beaker::before { content: '⚗️'; }
-        .icon-heart-atom::before { content: '⚛️💙'; }
-
-
-        .message-text {
-            font-family: 'Caveat', cursive;
-            font-size: 1.4rem;
-            color: var(--text-color);
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .message-sender {
-            font-size: 0.9rem;
-            font-style: italic;
-            color: rgba(248, 250, 252, 0.7);
-        }
-        .audio-note button {
-             background: var(--love-color);
-             border: none;
-             color: #020617;
-             padding: 8px 15px;
-             border-radius: 20px;
-             font-family: 'Nunito', sans-serif;
-             font-weight: 600;
-             margin-top: 15px;
-             transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-         }
-         .audio-note button:hover {
-             background: #7dd3fc;
-             transform: scale(1.05);
-             box-shadow: 0 4px 10px var(--love-glow);
-         }
-         .audio-note button:active {
-             transform: scale(1);
-         }
-         .audio-note audio { display: none; }
-
-
-        footer {
-            text-align: center;
-            padding: 40px 20px 20px 20px;
-            font-size: 1rem;
-            color: var(--accent-light-teal);
-            margin-top: 50px;
-            border-top: 1px solid var(--glass-border);
-            position: relative;
-            background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
-        }
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image:
-                radial-gradient(1px 1px at 10% 20%, white, transparent),
-                radial-gradient(1px 1px at 80% 40%, var(--accent-light-teal), transparent),
-                radial-gradient(2px 2px at 50% 70%, var(--highlight-blue), transparent),
-                radial-gradient(1px 1px at 30% 80%, white, transparent),
-                radial-gradient(1px 1px at 90% 10%, var(--accent-light-teal), transparent),
-                radial-gradient(1px 1px at 65% 55%, white, transparent);
-            background-size: 100% 100%;
-            opacity: 0.4;
-            z-index: -1;
-            animation: twinkle 8s infinite alternate;
-        }
-
-        .footer-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            text-shadow: 0 0 8px var(--glow-color-teal);
-        }
-
-
-        @media (max-width: 1024px) {
-            #hero h1 { font-size: 2.8rem; }
-            #hero p.subline { font-size: 1.3rem; }
-            h2 { font-size: 2.2rem; }
-            .flashcard-container { grid-template-columns: repeat(2, 1fr); }
-             .goal-list ul { columns: 1; }
-            .quiz-container { max-width: 90%; padding: 25px; }
-        }
-
-
-        @media (max-width: 768px) {
-            section { padding: 80px 5%; }
-            .navbar { padding: 15px 5%; }
-            .nav-links {
+            .particle-layer {
                 position: fixed;
                 top: 0;
-                left: -100%;
-                height: 100vh;
-                width: 250px;
-                flex-direction: column;
-                justify-content: flex-start;
-                padding-top: 80px;
-                gap: 20px;
-                background-color: rgba(15, 23, 42, 0.95);
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: -1;
+                overflow: hidden;
+            }
+
+            .particle {
+                position: absolute;
+                border-radius: 50%;
+                opacity: 0;
+                animation: float-orbit 20s infinite ease-in-out, twinkle 4s infinite alternate;
+                border: 1px solid var(--accent-teal);
+                box-shadow: 0 0 5px var(--glow-color-teal);
+            }
+            .particle.electron {
+                background-color: var(--highlight-blue);
+                border: none;
+                width: 3px !important;
+                height: 3px !important;
+                box-shadow: 0 0 6px var(--glow-color-blue);
+                animation-duration: 15s, 2s;
+            }
+
+            @keyframes float-orbit {
+                0% { transform: translate(0, 0) rotate(0deg) scale(0.8); opacity: 0.5; }
+                25% { transform: translate(20px, -30px) rotate(90deg) scale(1); opacity: 0.8; }
+                50% { transform: translate(-10px, 10px) rotate(180deg) scale(0.9); opacity: 0.7; }
+                75% { transform: translate(-25px, -15px) rotate(270deg) scale(1.1); opacity: 0.9; }
+                100% { transform: translate(0, 0) rotate(360deg) scale(0.8); opacity: 0.5; }
+            }
+
+            @keyframes twinkle {
+                0%, 100% { opacity: 0.6; }
+                50% { opacity: 1.0; }
+            }
+
+            #background-effects {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: -2;
+                overflow: hidden;
+            }
+
+            .bg-bubble {
+                position: absolute;
+                bottom: -50px;
+                background-color: rgba(56, 189, 248, 0.1);
+                border: 1px solid rgba(56, 189, 248, 0.15);
+                border-radius: 50%;
+                opacity: 0;
+                animation: bg-rise 15s infinite ease-in;
+                filter: blur(1px);
+            }
+            .bg-bubble.teal {
+                background-color: rgba(20, 184, 166, 0.1);
+                border: 1px solid rgba(20, 184, 166, 0.15);
+            }
+
+            @keyframes bg-rise {
+                0% { transform: translateY(0) scale(0.5); opacity: 0; }
+                10% { opacity: 0.7; }
+                90% { opacity: 0.3; }
+                100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+            }
+
+            .floating-formula {
+                position: absolute;
+                top: 110%;
+                color: rgba(248, 250, 252, 0.05);
+                font-family: 'Orbitron', sans-serif;
+                font-size: 1.5rem;
+                opacity: 0;
+                animation: drift-formula 30s infinite linear alternate;
+                user-select: none;
+            }
+            @keyframes drift-formula {
+                0% { transform: translateY(0vh) translateX(0px) rotate(-10deg); opacity: 0; }
+                10% { opacity: 1; }
+                90% { opacity: 1; }
+                100% { transform: translateY(-120vh) translateX(50px) rotate(15deg); opacity: 0; }
+            }
+
+            #smoke-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(ellipse at bottom left, rgba(15, 23, 42, 0.1) 0%, transparent 70%),
+                            radial-gradient(ellipse at top right, rgba(20, 184, 166, 0.05) 0%, transparent 60%);
+                background-size: 200% 200%;
+                opacity: 0.3;
+                z-index: -1;
+                pointer-events: none;
+                animation: smokeDrift 45s infinite alternate ease-in-out;
+                mix-blend-mode: overlay;
+            }
+
+            @keyframes smokeDrift {
+                from { background-position: 0% 0%; }
+                to { background-position: 100% 100%; }
+            }
+
+            #mouse-particle-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9998;
+            }
+
+            .mouse-particle {
+                position: absolute;
+                border-radius: 50%;
+                background: var(--accent-teal);
+                width: 4px;
+                height: 4px;
+                opacity: 1;
+                transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+                transform: translate(-50%, -50%);
+                filter: blur(1px);
+            }
+
+
+            .navbar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background-color: rgba(15, 23, 42, 0.6);
                 backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
-                transition: left 0.4s ease-in-out;
-                z-index: 1001;
-                border-right: 1px solid var(--glass-border);
-                overflow-y: auto;
+                color: var(--text-color);
+                padding: 15px 5%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid var(--glass-border);
+                z-index: 1000;
+                transition: background-color 0.3s ease;
             }
-            .nav-links.active { left: 0; }
-             .nav-links a { padding: 10px 20px; width: 100%; text-align: center; }
-             .nav-links a:hover { color: var(--highlight-blue); text-shadow: 0 0 8px var(--glow-color-blue); }
-             .nav-links a::after { background-color: var(--accent-teal); box-shadow: 0 0 5px var(--glow-color-teal); }
 
-            .menu-toggle { display: flex; z-index: 1002; }
-
-            #hero h1 { font-size: 2.2rem; }
-            #hero p.subline { font-size: 1.1rem; }
-            .cta-button { font-size: 1.1rem; padding: 12px 30px; }
-            h2 { font-size: 1.8rem; margin-bottom: 40px;}
-
-            .goals-container { flex-direction: column; align-items: center; max-width: 90%;}
-            .goal-list { max-width: 100%; }
-
-            .flashcard-container { grid-template-columns: repeat(2, 1fr); }
-            .flashcard { min-height: 180px; }
-            .flashcard-topic-header { flex-direction: column; align-items: flex-start; gap: 10px;}
-             .flashcard-topic-header h3 { font-size: 1.6rem; }
-             .shuffle-button { align-self: flex-start; }
-
-            .quiz-question p { font-size: 1.1rem; }
-            .quiz-options label { font-size: 0.95rem; padding: 10px 12px 10px 35px; }
-             .quiz-options label::before { width: 16px; height: 16px; left: 10px;}
-             .quiz-options label::after { width: 8px; height: 8px; left: 14px; }
-
-            .lab-container { flex-direction: column; align-items: center; }
-            .message-item { max-width: 90%; }
-
-            .footer-text { font-size: 1.1rem; }
-
-            #mobile-menu-overlay {
-                 position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                 background: rgba(15, 23, 42, 0.5);
-                 z-index: 1000; opacity: 0; visibility: hidden;
-                 transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+            .navbar .logo {
+                font-weight: 700;
+                font-size: 1.5rem;
+                color: var(--accent-teal);
+                text-decoration: none;
+                font-family: 'Audiowide', sans-serif;
+                text-shadow: 0 0 8px var(--glow-color-teal);
             }
-            #mobile-menu-overlay.active { opacity: 1; visibility: visible; }
-
-             body, a, button, input[type="checkbox"], label { cursor: auto; }
-             #mouse-particle-container { display: none; }
-        }
-
-         @media (max-width: 480px) {
-             #hero h1 { font-size: 1.8rem; }
-             #hero p.subline { font-size: 1rem; }
-             .cta-button { font-size: 1rem; padding: 10px 25px; }
-             h2 { font-size: 1.6rem;}
-
-             .goal-list h3 { font-size: 1.4rem; }
-             .goal-list li { font-size: 1rem; }
-             .goal-list input[type="checkbox"] { width: 20px; height: 20px; }
-             .goal-list ul { columns: 1; }
-
-             #flashcards { padding: 80px 3%; }
-             .flashcard-topic-group h3 { font-size: 1.5rem; text-align: center; }
-             .flashcard-container { grid-template-columns: 1fr; }
-             .flashcard { min-height: 160px;}
-             .flashcard-front { font-size: 1rem; }
-             .flashcard-back { font-size: 0.9rem; }
-             .flashcard-topic-header h3 { text-align: left;}
 
 
-             .quiz-container { padding: 20px 15px; }
-             .quiz-topic-selection button { font-size: 0.8rem; padding: 8px 12px; margin: 0 5px 15px 5px;}
-             .quiz-question p { font-size: 1rem; }
-             .quiz-options label { font-size: 0.9rem; }
-             .submit-quiz-btn { font-size: 1rem; padding: 10px 25px; }
-             #quiz-results { font-size: 1.1rem; }
-             #quiz-results span { font-size: 1.2rem; }
+            .nav-links {
+                list-style: none;
+                display: flex;
+                gap: 25px;
+            }
 
-             #background-effects { display: none; }
-             #smoke-overlay { display: none; }
+            .nav-links a {
+                color: var(--text-color);
+                text-decoration: none;
+                font-weight: 600;
+                transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+                position: relative;
+                padding-bottom: 5px;
+                font-family: 'Nunito', sans-serif;
+            }
 
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: var(--highlight-blue);
+                transition: width 0.3s ease;
+                box-shadow: 0 0 5px var(--glow-color-blue);
+            }
 
-             .message-item { padding: 20px; }
-             .message-icon { font-size: 2rem; }
-             .message-text { font-size: 1.2rem; }
-
-             .footer-text { font-size: 1rem; }
-
-         }
-
-
-        .progress-bar-container {
-            width: 100%;
-            background-color: rgba(15, 23, 42, 0.5);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            border: 1px solid var(--glass-border);
-            height: 25px;
-            position: relative;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--accent-teal), var(--highlight-blue));
-            border-radius: 8px;
-            transition: width 0.5s ease-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 8px var(--glow-color-blue);
-        }
-        .progress-bar-text {
-            color: #020617;
-            font-weight: 600;
-            font-size: 0.85rem;
-            position: absolute;
-            width: 100%;
-            text-align: center;
-            line-height: 25px;
-             text-shadow: 1px 1px 2px rgba(248, 250, 252, 0.2);
-        }
-
-        #love-lab {
-            background: linear-gradient(180deg, #1e3a8a, #172b63);
-            min-height: 80vh;
-            display: none;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-            overflow: hidden;
-            position: relative;
-        }
-
-        #love-lab.visible {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        #love-lab-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            padding: 40px 20px;
-            min-height: inherit;
-            width: 100%;
-            height: 100%;
-        }
-
-        #love-lab h2 {
-            color: var(--highlight-blue);
-            text-shadow: 0 0 12px var(--glow-color-blue);
-            margin-bottom: 20px;
-        }
-
-        .love-lab-instructions {
-            color: var(--accent-light-teal);
-            margin-bottom: 40px;
-            max-width: 600px;
-            font-size: 1.1rem;
-        }
-
-        .love-lab-area {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            width: 100%;
-            max-width: 800px;
-            margin-bottom: 40px;
-            min-height: 250px;
-            position: relative;
-        }
-
-        .element-block {
-            width: 120px;
-            height: 120px;
-            background: rgba(20, 184, 166, 0.1);
-            border: 2px solid var(--accent-teal);
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: grab;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-            box-shadow: 0 0 10px var(--glow-color-teal);
-            position: relative;
-            z-index: 10;
-            animation: floatElement 5s infinite ease-in-out alternate;
-            overflow: hidden;
-        }
-
-        .element-block::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0.9;
-            z-index: 1;
-            border-radius: inherit;
-            pointer-events: none;
-        }
-
-        #element-ah::before {
-            background-image: url('a.png');
-        }
-
-        #element-ha::before {
-            background-image: url('h.png');
-        }
+            .nav-links a:hover {
+                color: var(--highlight-blue);
+                text-shadow: 0 0 8px var(--glow-color-blue);
+                transform: translateY(-2px);
+            }
+            .nav-links a:hover::after {
+                width: 100%;
+            }
 
 
-        #element-ha {
-             border-color: var(--highlight-blue);
-             background: rgba(56, 189, 248, 0.1);
-             box-shadow: 0 0 10px var(--glow-color-blue);
-             animation-delay: 0.5s;
-        }
-
-        .element-block:active {
-            cursor: grabbing;
-            transform: scale(0.95);
-            box-shadow: 0 0 20px var(--glow-color-teal), 0 0 30px var(--glow-color-blue);
-        }
-        .element-block.dragging {
-            opacity: 0.5;
-            border-style: dashed;
-        }
-
-        #element-ha:active {
-            box-shadow: 0 0 20px var(--glow-color-blue), 0 0 30px var(--glow-color-teal);
-        }
-
-        @keyframes floatElement {
-            from { transform: translateY(-5px); }
-            to { transform: translateY(5px); }
-        }
-
-        .element-symbol, .element-name {
-            position: relative;
-            z-index: 2; /* Ensure text is above the pseudo-element */
-        }
-
-        .element-symbol {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-color);
-        }
-        #element-ah .element-symbol { color: var(--accent-teal); text-shadow: 0 0 8px var(--glow-color-teal);}
-        #element-ha .element-symbol { color: var(--highlight-blue); text-shadow: 0 0 8px var(--glow-color-blue); }
-
-
-        .element-name {
-            font-size: 0.8rem;
-            color: var(--accent-light-teal);
-            margin-top: 5px;
-            font-family: 'Nunito', sans-serif;
-        }
-
-        .beaker-dropzone {
-            width: 180px;
-            height: 220px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none" stroke="rgba(153, 246, 228, 0.6)" stroke-width="3"><path d="M15 5 L85 5 L75 115 H25 Z M5 15 H95"/></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center bottom;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: filter 0.4s ease; /* Removed transform transition */
-            z-index: 5;
-            overflow: hidden; /* Needed for clip-path */
-        }
-        .beaker-dropzone.drag-over {
-            /* transform: scale(1.1); <-- Removed this line */
-            filter: drop-shadow(0 0 15px var(--accent-light-teal));
-        }
-        .beaker-dropzone.reacting {
-            /* Removed beakerShake from animation or ensure beakerShake doesn't move it */
-            animation: beakerShake 0.5s ease-in-out infinite alternate, beakerGlow 1.5s ease-in-out infinite alternate;
-        }
-
-        .beaker-liquid {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 0%;
-            background: linear-gradient(to top, rgba(20, 184, 166, 0.5), rgba(56, 189, 248, 0.6));
-            transition: height 0.8s ease-in-out, opacity 0.8s ease-in-out;
-            opacity: 0;
-            clip-path: url(#beaker-clip);
-        }
-        .beaker-dropzone.reacting .beaker-liquid {
-            opacity: 0.85;
-            height: 65%;
-            animation: liquidBubble 1s infinite ease-in-out;
-        }
-
-        @keyframes liquidBubble {
-             0%, 100% { background: linear-gradient(to top, rgba(20, 184, 166, 0.6), rgba(56, 189, 248, 0.7)); }
-             50% { background: linear-gradient(to top, rgba(56, 189, 248, 0.7), rgba(20, 184, 166, 0.6)); }
-        }
-
-
-        .beaker-sparkles {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            pointer-events: none;
-            z-index: 6;
-        }
-
-        .beaker-sparkle {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            opacity: 0;
-            animation: sparkleFade 0.8s ease-out forwards;
-        }
-        @keyframes sparkleFade {
-            0% { opacity: 1; transform: scale(0.5) translate(0, 0); }
-            100% { opacity: 0; transform: scale(1.2) translate(10px, -20px); }
-        }
-
-        .beaker-label {
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            color: rgba(153, 246, 228, 0.7);
-            white-space: nowrap;
-        }
-
-        #love-reaction-hearts {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 15;
-        }
-
-        .love-heart {
-            position: absolute;
-            font-size: 1.8rem;
-            opacity: 0;
-            animation: floatHeartWide 3.5s ease-out forwards;
-            user-select: none;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-        }
-        @keyframes floatHeartWide {
-            0% { transform: translateY(0) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
-        }
-
-        .love-lab-final-message {
-            margin-top: 30px;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: opacity 0.8s ease-out 0.5s, transform 0.8s ease-out 0.5s;
-            font-family: 'Caveat', cursive;
-            font-size: 2rem;
-            color: var(--text-color);
-            text-shadow: 0 0 10px var(--glow-color-teal), 0 0 15px var(--glow-color-blue);
-            background: rgba(15, 23, 42, 0.5);
-            padding: 20px 30px;
-            border-radius: 15px;
-            border: 1px solid var(--glass-border);
-            max-width: 90%;
-            position: relative;
-            z-index: 20;
-        }
-        #love-lab.completed .love-lab-final-message {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        body.love-lab-glow {
-            animation: siteGlow 2s ease-in-out 1;
-        }
-        @keyframes siteGlow {
-            0%, 100% { box-shadow: inset 0 0 0px transparent; }
-            50% { box-shadow: inset 0 0 100px 30px rgba(20, 184, 166, 0.1), inset 0 0 100px 30px rgba(56, 189, 248, 0.1); }
-        }
-
-        /* Modified beakerShake to remove movement */
-        @keyframes beakerShake {
-            from { /* transform: translateX(-3px) rotate(-1deg); */ }
-            to { /* transform: translateX(3px) rotate(1deg); */ }
-        }
-        @keyframes beakerGlow {
-            from { filter: drop-shadow(0 0 10px var(--glow-color-teal)); }
-            to { filter: drop-shadow(0 0 20px var(--glow-color-blue)) drop-shadow(0 0 15px var(--accent-light-teal)); }
-        }
-
-
-        @media (max-width: 768px) {
-            .love-lab-area {
+            .menu-toggle {
+                display: none;
                 flex-direction: column;
-                gap: 40px;
-                min-height: auto;
+                cursor: pointer;
+                background: none;
+                border: none;
+                padding: 0;
+                z-index: 1010;
             }
-            .element-block {
-                width: 100px;
-                height: 100px;
+
+            .menu-toggle span {
+                height: 3px;
+                width: 25px;
+                background: var(--accent-teal);
+                margin-bottom: 4px;
+                border-radius: 2px;
+                transition: all 0.3s ease;
+                transform-origin: center;
+                box-shadow: 0 0 3px var(--glow-color-teal);
             }
-             .element-symbol { font-size: 2rem; }
-            .beaker-dropzone {
-                width: 150px;
-                height: 180px;
-                order: 1; /* Keep beaker in the middle on mobile */
+            .menu-toggle span:last-child {
+                margin-bottom: 0;
             }
-            #element-ah { order: 0; }
-            #element-ha { order: 2; }
-            .love-lab-final-message { font-size: 1.5rem; }
-        }
 
-        @media (max-width: 480px) {
-            #love-lab h2 { font-size: 1.8rem; }
-            .love-lab-instructions { font-size: 1rem; }
-            .element-block { width: 90px; height: 90px; }
-            .element-symbol { font-size: 1.8rem; }
-            .beaker-dropzone { width: 130px; height: 160px; }
-            .love-lab-final-message { font-size: 1.3rem; padding: 15px 20px;}
-        }
-
-    </style>
-</head>
-<body>
-    <svg width="0" height="0" style="position:absolute;z-index:-1;">
-        <defs>
-          <clipPath id="beaker-clip" clipPathUnits="objectBoundingBox">
-            <!-- Adjusted the top X coordinates from 0.15/0.85 to 0.20/0.80 -->
-            <path d="M0.20 0.04 L0.80 0.04 L0.75 0.96 H0.25 Z"></path>
-          </clipPath>
-        </defs>
-      </svg>
+            .menu-toggle.active span { background: var(--highlight-blue); box-shadow: 0 0 3px var(--glow-color-blue); }
+            .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 
-    <div id="confetti-container"></div>
-    <div id="smoke-overlay"></div>
-    <div id="mouse-particle-container"></div>
+            #hero {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+                background: radial-gradient(ellipse at bottom, #1e3a8a 10%, var(--bg-color) 90%);
+                padding: 20px;
+            }
+            #hero::before {
+                content: '';
+                position: absolute;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background-image:
+                    linear-gradient(rgba(20, 184, 166, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(20, 184, 166, 0.05) 1px, transparent 1px);
+                background-size: 30px 30px;
+                opacity: 0.5;
+                z-index: -1;
+                animation: backgroundShift 60s linear infinite;
+            }
+            @keyframes backgroundShift {
+                from { background-position: 0 0; }
+                to { background-position: 300px 300px; }
+            }
 
-    <div id="background-effects">
-    </div>
+            .hero-content {
+                position: relative;
+                z-index: 2;
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+                animation: fadeInHero 1s ease-out 0.5s forwards;
+            }
 
-    <div class="particle-layer" id="particle-layer">
-    </div>
-
-    <nav class="navbar">
-        <a href="#hero" class="logo">CHEMLIYAH GRINDEN 💚🔒</a>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <ul class="nav-links" id="nav-links">
-            <li><a href="#hero">HOMO</a></li>
-            <li><a href="#goals">GOALZ</a></li>
-            <li><a href="#flashcards">FLOOSHCOORDS</a></li>
-            <li><a href="#lab-of-love">MOTIVATION</a></li>
-             <li><a href="#love-lab">OUR BOND</a></li>
-        </ul>
-    </nav>
-    <div id="mobile-menu-overlay"></div>
+            @keyframes fadeInHero {
+                to { opacity: 1; transform: translateY(0) scale(1); }
+            }
 
 
-    <section id="hero">
-         <div class="hero-content">
-            <h1>CHEMISTRY 😪 OUR CHEMISTRY 😈☝🏿🧑🏿‍🔬 HEY! 😈</h1>
-            <p class="subline">CHEMISTRY MIGHT BE HARD BUT IM HARDER WHEN I SEE YOU 😈😈</p>
-            <a href="#goals" class="cta-button"><span>STARTEN THE GRINDENNNEENNE💥</span></a>
+            #hero h1 {
+                font-family: 'Orbitron', sans-serif;
+                font-size: 3.2rem;
+                margin-bottom: 20px;
+                font-weight: 700;
+                color: var(--text-color);
+                text-shadow: 0 0 15px var(--glow-color-teal), 0 0 25px var(--glow-color-teal);
+                line-height: 1.3;
+            }
+
+            #hero p.subline {
+                font-size: 1.5rem;
+                color: var(--accent-light-teal);
+                margin-bottom: 45px;
+                font-family: 'Nunito', sans-serif;
+                font-weight: 400;
+                text-shadow: 0 0 5px rgba(153, 246, 228, 0.5);
+            }
+
+            .cta-button {
+                display: inline-block;
+                background: linear-gradient(45deg, var(--accent-teal), var(--highlight-blue));
+                color: #020617;
+                padding: 16px 45px;
+                border: none;
+                border-radius: 8px;
+                font-size: 1.3rem;
+                font-weight: 700;
+                transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease, background-position 0.8s ease, filter 0.4s ease;
+                text-decoration: none;
+                font-family: 'Audiowide', sans-serif;
+                box-shadow: 0 6px 20px var(--glow-color-blue), inset 0 0 5px rgba(248, 250, 252, 0.1);
+                position: relative;
+                overflow: hidden;
+                z-index: 1;
+                background-size: 200% 100%;
+                background-position: 0% 50%;
+                text-shadow: 1px 1px 2px rgba(15, 23, 42, 0.2);
+            }
+
+            .cta-button span {
+                position: relative;
+                z-index: 2;
+            }
+
+
+            .cta-button::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -100%;
+                width: 80%;
+                height: 200%;
+                background: linear-gradient(90deg, transparent, rgba(248, 250, 252, 0.15), transparent);
+                transition: left 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+                transform: skewX(-25deg);
+                z-index: 1;
+                pointer-events: none;
+            }
+
+            .cta-button::after {
+                content: '';
+                position: absolute;
+                inset: -1px;
+                border: 2px solid transparent;
+                border-radius: inherit;
+                background: linear-gradient(45deg, var(--accent-teal), var(--highlight-blue)) border-box;
+                -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: destination-out;
+                mask-composite: exclude;
+                opacity: 0;
+                transition: opacity 0.4s ease;
+                z-index: 0;
+            }
+
+
+            .cta-button:hover {
+                transform: scale(1.05) translateY(-2px);
+                box-shadow: 0 10px 30px var(--glow-color-blue), 0 0 15px var(--glow-color-teal), inset 0 0 8px rgba(248, 250, 252, 0.15), 0 0 25px var(--glow-color-teal);
+                background-position: 100% 50%;
+                filter: brightness(1.1);
+            }
+            .cta-button:hover::before {
+                left: 120%;
+            }
+            .cta-button:hover::after {
+                opacity: 1;
+            }
+
+            .cta-button:active {
+                transform: scale(1.01) translateY(0px);
+                box-shadow: 0 5px 15px var(--glow-color-blue), inset 0 0 5px rgba(248, 250, 252, 0.1);
+                filter: brightness(1);
+            }
+
+
+            section {
+                padding: 100px 10%;
+                position: relative;
+                overflow: hidden;
+                min-height: 60vh;
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            }
+            section.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            #hero { opacity: 1; transform: translateY(0); }
+
+
+            h2 {
+                font-family: 'Orbitron', sans-serif;
+                font-size: 2.5rem;
+                text-align: center;
+                margin-bottom: 60px;
+                color: var(--accent-teal);
+                text-shadow: 0 0 10px var(--glow-color-teal);
+                letter-spacing: 1px;
+            }
+
+            h3 {
+                font-family: 'Audiowide', sans-serif;
+                color: var(--highlight-blue);
+                text-shadow: 0 0 6px var(--glow-color-blue);
+                margin-bottom: 25px;
+                text-align: center;
+                font-size: 1.6rem;
+            }
+
+            #goals {
+                background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), #0c1f40 90%);
+            }
+
+            .goals-container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 20px;
+                max-width: 700px;
+                margin: 0 auto;
+            }
+
+            .goal-list {
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+                border-radius: 15px;
+                padding: 30px 40px;
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(20, 184, 166, 0.1);
+                width: 100%;
+            }
+
+            .goal-list ul {
+                list-style: none;
+                columns: 2;
+                column-gap: 30px;
+            }
+
+            .goal-list li {
+                margin-bottom: 15px;
+                display: flex;
+                align-items: center;
+                font-size: 1rem;
+                color: var(--text-color);
+                position: relative;
+                overflow: hidden;
+                break-inside: avoid;
+                padding: 5px 0;
+            }
+
+            .goal-list input[type="checkbox"] {
+                appearance: none;
+                -webkit-appearance: none;
+                width: 20px;
+                height: 20px;
+                border: 2px solid var(--accent-teal);
+                border-radius: 5px;
+                margin-right: 10px;
+                position: relative;
+                transition: background-color 0.2s ease, border-color 0.2s ease;
+                flex-shrink: 0;
+                z-index: 1;
+            }
+
+            .goal-list input[type="checkbox"]:checked {
+                background-color: var(--highlight-blue);
+                border-color: var(--highlight-blue);
+                box-shadow: 0 0 8px var(--glow-color-blue);
+            }
+
+            .goal-list input[type="checkbox"]::before {
+                content: '';
+                display: block;
+                width: 10px;
+                height: 10px;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%230f172a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0);
+                transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            .goal-list input[type="checkbox"]:checked::before {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            .goal-list label {
+                flex-grow: 1;
+                transition: color 0.2s ease, text-decoration 0.2s ease;
+                z-index: 1;
+            }
+
+            .goal-list input[type="checkbox"]:checked + label {
+                color: var(--accent-light-teal);
+                text-decoration: line-through;
+                text-decoration-color: var(--highlight-blue);
+                opacity: 0.7;
+            }
+
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background-color: rgba(56, 189, 248, 0.3);
+                transform: scale(0);
+                animation: ripple-effect 0.6s ease-out;
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            @keyframes ripple-effect {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+
+            #confetti-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9999;
+                overflow: hidden;
+            }
+
+            .confetti {
+                position: absolute;
+                width: 8px;
+                height: 15px;
+                background-color: var(--highlight-blue);
+                opacity: 1;
+                animation: fall 3s linear forwards;
+            }
+            @keyframes fall {
+                0% {
+                    transform: translateY(-10vh) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(110vh) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+
+            #flashcards {
+                background: linear-gradient(to bottom, #0c1f40, #0f172a 90%);
+            }
+            #flashcards h2 {
+                margin-bottom: 30px;
+            }
+            .flashcard-area {
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+            .flashcard-topic-group {
+                margin-bottom: 50px;
+            }
+
+            .flashcard-topic-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 25px;
+                border-bottom: 1px solid var(--glass-border);
+                padding-bottom: 10px;
+            }
+            .flashcard-topic-header h3 {
+                font-family: 'Audiowide', sans-serif;
+                color: var(--accent-teal);
+                text-shadow: 0 0 6px var(--glow-color-teal);
+                margin-bottom: 0;
+                text-align: left;
+                font-size: 1.8rem;
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .shuffle-button {
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+                color: var(--accent-teal);
+                padding: 6px 12px;
+                border-radius: 6px;
+                font-family: 'Audiowide', sans-serif;
+                font-size: 0.8rem;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            .shuffle-button:hover {
+                background: var(--accent-teal);
+                color: var(--bg-color);
+                box-shadow: 0 0 10px var(--glow-color-teal);
+                transform: translateY(-1px);
+            }
+            .flashcard-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 25px;
+                justify-content: center;
+            }
+
+            .flashcard {
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+                border-radius: 10px;
+                min-height: 200px;
+                aspect-ratio: 3 / 2;
+                position: relative;
+                perspective: 1200px;
+                transform-style: preserve-3d;
+                transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+                transition: opacity 0.6s ease-out, transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+                border-left: 4px solid transparent;
+            }
+            .flashcard.visible {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            .flashcard:hover {
+                transform: translateY(-5px) scale(1.03);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 0 20px var(--glow-color-teal), 0 0 10px var(--glow-color-blue);
+            }
+
+            .flashcard.flipped {
+                transform: rotateY(180deg);
+            }
+
+            .flashcard-inner {
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                border-radius: inherit;
+                transform-style: preserve-3d;
+            }
+
+
+            .flashcard-front, .flashcard-back {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                padding: 20px;
+                padding-bottom: 35px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: inherit;
+                flex-direction: column;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            .flashcard-front {
+                background-color: transparent;
+                color: var(--text-color);
+                font-weight: 600;
+                font-size: 1.1rem;
+                z-index: 2;
+                transform: rotateY(0deg);
+            }
+
+            .flashcard-back {
+                background-color: rgba(15, 23, 42, 0.9);
+                color: var(--accent-light-teal);
+                transform: rotateY(180deg);
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            .flashcard-diagram {
+                max-width: 80%;
+                max-height: 80px;
+                margin-top: 10px;
+                border-radius: 5px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .flashcard-tag {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 0.75rem;
+                color: var(--accent-teal);
+                opacity: 0.8;
+                font-family: 'Orbitron', sans-serif;
+                background: rgba(15, 23, 42, 0.6);
+                padding: 3px 6px;
+                border-radius: 4px;
+                z-index: 3;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+
+            .flashcard-difficulty-controls {
+                position: absolute;
+                bottom: 8px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 8px;
+                z-index: 4;
+                background: rgba(15, 23, 42, 0.7);
+                padding: 4px 8px;
+                border-radius: 15px;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                opacity: 0.6;
+                transition: opacity 0.3s ease;
+            }
+            .flashcard:hover .flashcard-difficulty-controls {
+                opacity: 1;
+            }
+            .difficulty-button {
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                border: 2px solid rgba(248, 250, 252, 0.3);
+                cursor: pointer;
+                transition: all 0.2s ease;
+                background-color: transparent;
+            }
+            .difficulty-button.easy { border-color: var(--difficulty-easy); }
+            .difficulty-button.medium { border-color: var(--difficulty-medium); }
+            .difficulty-button.hard { border-color: var(--difficulty-hard); }
+
+            .difficulty-button.active {
+                transform: scale(1.2);
+            }
+            .difficulty-button.easy.active { background-color: var(--difficulty-easy); box-shadow: 0 0 5px var(--difficulty-glow-easy); }
+            .difficulty-button.medium.active { background-color: var(--difficulty-medium); box-shadow: 0 0 5px var(--difficulty-glow-medium); }
+            .difficulty-button.hard.active { background-color: var(--difficulty-hard); box-shadow: 0 0 5px var(--difficulty-glow-hard); }
+
+            .flashcard.difficulty-easy { border-left-color: var(--difficulty-easy); }
+            .flashcard.difficulty-medium { border-left-color: var(--difficulty-medium); }
+            .flashcard.difficulty-hard { border-left-color: var(--difficulty-hard); }
+
+
+            #lab-of-love {
+                background: linear-gradient(135deg, #1e40af, #1e3a8a);
+            }
+
+            .lab-container {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+
+            .message-item {
+                background: rgba(56, 189, 248, 0.1);
+                border: 1px solid rgba(56, 189, 248, 0.3);
+                border-radius: 15px;
+                padding: 25px;
+                width: 100%;
+                max-width: 350px;
+                text-align: center;
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(56, 189, 248, 0.1);
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
+            }
+            .message-item.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .message-icon {
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+                color: var(--love-color);
+                text-shadow: 0 0 10px var(--love-glow);
+                display: block;
+                animation: iconPulse 2.5s infinite ease-in-out;
+            }
+
+            @keyframes iconPulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+            }
+            .message-item:nth-child(2) .message-icon { animation-delay: 0.3s; }
+            .message-item:nth-child(3) .message-icon { animation-delay: 0.6s; }
+
+
+            .icon-test-tube::before { content: '🧪'; }
+            .icon-beaker::before { content: '⚗️'; }
+            .icon-heart-atom::before { content: '⚛️💙'; }
+
+
+            .message-text {
+                font-family: 'Caveat', cursive;
+                font-size: 1.4rem;
+                color: var(--text-color);
+                line-height: 1.6;
+                margin-bottom: 10px;
+            }
+
+            .message-sender {
+                font-size: 0.9rem;
+                font-style: italic;
+                color: rgba(248, 250, 252, 0.7);
+            }
+            .audio-note button {
+                background: var(--love-color);
+                border: none;
+                color: #020617;
+                padding: 8px 15px;
+                border-radius: 20px;
+                font-family: 'Nunito', sans-serif;
+                font-weight: 600;
+                margin-top: 15px;
+                transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            }
+            .audio-note button:hover {
+                background: #7dd3fc;
+                transform: scale(1.05);
+                box-shadow: 0 4px 10px var(--love-glow);
+            }
+            .audio-note button:active {
+                transform: scale(1);
+            }
+            .audio-note audio { display: none; }
+
+
+            footer {
+                text-align: center;
+                padding: 40px 20px 20px 20px;
+                font-size: 1rem;
+                color: var(--accent-light-teal);
+                margin-top: 50px;
+                border-top: 1px solid var(--glass-border);
+                position: relative;
+                background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
+            }
+            footer::before {
+                content: '';
+                position: absolute;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background-image:
+                    radial-gradient(1px 1px at 10% 20%, white, transparent),
+                    radial-gradient(1px 1px at 80% 40%, var(--accent-light-teal), transparent),
+                    radial-gradient(2px 2px at 50% 70%, var(--highlight-blue), transparent),
+                    radial-gradient(1px 1px at 30% 80%, white, transparent),
+                    radial-gradient(1px 1px at 90% 10%, var(--accent-light-teal), transparent),
+                    radial-gradient(1px 1px at 65% 55%, white, transparent);
+                background-size: 100% 100%;
+                opacity: 0.4;
+                z-index: -1;
+                animation: twinkle 8s infinite alternate;
+            }
+
+            .footer-text {
+                font-family: 'Orbitron', sans-serif;
+                font-size: 1.3rem;
+                margin-bottom: 25px;
+                text-shadow: 0 0 8px var(--glow-color-teal);
+            }
+
+
+            @media (max-width: 1024px) {
+                #hero h1 { font-size: 2.8rem; }
+                #hero p.subline { font-size: 1.3rem; }
+                h2 { font-size: 2.2rem; }
+                .flashcard-container { grid-template-columns: repeat(2, 1fr); }
+                .goal-list ul { columns: 1; }
+                .quiz-container { max-width: 90%; padding: 25px; }
+            }
+
+
+            @media (max-width: 768px) {
+                section { padding: 80px 5%; }
+                .navbar { padding: 15px 5%; }
+                .nav-links {
+                    position: fixed;
+                    top: 0;
+                    left: -100%;
+                    height: 100vh;
+                    width: 250px;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    padding-top: 80px;
+                    gap: 20px;
+                    background-color: rgba(15, 23, 42, 0.95);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    transition: left 0.4s ease-in-out;
+                    z-index: 1001;
+                    border-right: 1px solid var(--glass-border);
+                    overflow-y: auto;
+                }
+                .nav-links.active { left: 0; }
+                .nav-links a { padding: 10px 20px; width: 100%; text-align: center; }
+                .nav-links a:hover { color: var(--highlight-blue); text-shadow: 0 0 8px var(--glow-color-blue); }
+                .nav-links a::after { background-color: var(--accent-teal); box-shadow: 0 0 5px var(--glow-color-teal); }
+
+                .menu-toggle { display: flex; z-index: 1002; }
+
+                #hero h1 { font-size: 2.2rem; }
+                #hero p.subline { font-size: 1.1rem; }
+                .cta-button { font-size: 1.1rem; padding: 12px 30px; }
+                h2 { font-size: 1.8rem; margin-bottom: 40px;}
+
+                .goals-container { flex-direction: column; align-items: center; max-width: 90%;}
+                .goal-list { max-width: 100%; }
+
+                .flashcard-container { grid-template-columns: repeat(2, 1fr); }
+                .flashcard { min-height: 180px; }
+                .flashcard-topic-header { flex-direction: column; align-items: flex-start; gap: 10px;}
+                .flashcard-topic-header h3 { font-size: 1.6rem; }
+                .shuffle-button { align-self: flex-start; }
+
+                .quiz-question p { font-size: 1.1rem; }
+                .quiz-options label { font-size: 0.95rem; padding: 10px 12px 10px 35px; }
+                .quiz-options label::before { width: 16px; height: 16px; left: 10px;}
+                .quiz-options label::after { width: 8px; height: 8px; left: 14px; }
+
+                .lab-container { flex-direction: column; align-items: center; }
+                .message-item { max-width: 90%; }
+
+                .footer-text { font-size: 1.1rem; }
+
+                #mobile-menu-overlay {
+                    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                    background: rgba(15, 23, 42, 0.5);
+                    z-index: 1000; opacity: 0; visibility: hidden;
+                    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+                }
+                #mobile-menu-overlay.active { opacity: 1; visibility: visible; }
+
+                body, a, button, input[type="checkbox"], label { cursor: auto; }
+                #mouse-particle-container { display: none; }
+            }
+
+            @media (max-width: 480px) {
+                #hero h1 { font-size: 1.8rem; }
+                #hero p.subline { font-size: 1rem; }
+                .cta-button { font-size: 1rem; padding: 10px 25px; }
+                h2 { font-size: 1.6rem;}
+
+                .goal-list h3 { font-size: 1.4rem; }
+                .goal-list li { font-size: 1rem; }
+                .goal-list input[type="checkbox"] { width: 20px; height: 20px; }
+                .goal-list ul { columns: 1; }
+
+                #flashcards { padding: 80px 3%; }
+                .flashcard-topic-group h3 { font-size: 1.5rem; text-align: center; }
+                .flashcard-container { grid-template-columns: 1fr; }
+                .flashcard { min-height: 160px;}
+                .flashcard-front { font-size: 1rem; }
+                .flashcard-back { font-size: 0.9rem; }
+                .flashcard-topic-header h3 { text-align: left;}
+
+
+                .quiz-container { padding: 20px 15px; }
+                .quiz-topic-selection button { font-size: 0.8rem; padding: 8px 12px; margin: 0 5px 15px 5px;}
+                .quiz-question p { font-size: 1rem; }
+                .quiz-options label { font-size: 0.9rem; }
+                .submit-quiz-btn { font-size: 1rem; padding: 10px 25px; }
+                #quiz-results { font-size: 1.1rem; }
+                #quiz-results span { font-size: 1.2rem; }
+
+                #background-effects { display: none; }
+                #smoke-overlay { display: none; }
+
+
+                .message-item { padding: 20px; }
+                .message-icon { font-size: 2rem; }
+                .message-text { font-size: 1.2rem; }
+
+                .footer-text { font-size: 1rem; }
+
+            }
+
+
+            .progress-bar-container {
+                width: 100%;
+                background-color: rgba(15, 23, 42, 0.5);
+                border-radius: 10px;
+                margin-bottom: 20px;
+                overflow: hidden;
+                border: 1px solid var(--glass-border);
+                height: 25px;
+                position: relative;
+            }
+            .progress-bar-fill {
+                height: 100%;
+                width: 0%;
+                background: linear-gradient(90deg, var(--accent-teal), var(--highlight-blue));
+                border-radius: 8px;
+                transition: width 0.5s ease-out;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 0 8px var(--glow-color-blue);
+            }
+            .progress-bar-text {
+                color: #020617;
+                font-weight: 600;
+                font-size: 0.85rem;
+                position: absolute;
+                width: 100%;
+                text-align: center;
+                line-height: 25px;
+                text-shadow: 1px 1px 2px rgba(248, 250, 252, 0.2);
+            }
+
+
+        </style>
+    </head>
+    <body>
+
+        <div id="confetti-container"></div>
+        <div id="smoke-overlay"></div>
+        <div id="mouse-particle-container"></div>
+
+        <div id="background-effects">
         </div>
-    </section>
 
-    <section id="goals" class="revealable">
-        <h2>CHEMCHECKLIST</h2>
-        <div class="goals-container">
-             <div class="progress-bar-container">
-                 <div class="progress-bar-fill" id="goal-progress-fill"></div>
-                 <div class="progress-bar-text" id="goal-progress-text">0% Complete</div>
-             </div>
-            <div class="goal-list">
-                <ul id="study-checklist">
-                     <li><input type="checkbox" id="task1"><label for="task1">C2: Review Empirical Formula</label></li>
-                     <li><input type="checkbox" id="task2"><label for="task2">C2: Practice Distillation Concept</label></li>
-                     <li><input type="checkbox" id="task3"><label for="task3">C2: Ionic Bonding Rules</label></li>
-                     <li><input type="checkbox" id="task4"><label for="task4">C2: Define Metallic Bonding</label></li>
-                     <li><input type="checkbox" id="task5"><label for="task5">C2: Structure of Metals</label></li>
-                     <li><input type="checkbox" id="task6"><label for="task6">C3: Conservation of Mass Law</label></li>
-                     <li><input type="checkbox" id="task7"><label for="task7">C3: Balance 3 Chemical Equations</label></li>
-                     <li><input type="checkbox" id="task8"><label for="task8">C3: Mole Calculation Practice</label></li>
-                     <li><input type="checkbox" id="task9"><label for="task9">C3: Exothermic vs Endothermic</label></li>
-                     <li><input type="checkbox" id="task10"><label for="task10">C3: Define Redox Reaction</label></li>
-                     <li><input type="checkbox" id="task11"><label for="task11">C3: Electrolysis Basics</label></li>
-                     <li><input type="checkbox" id="task12"><label for="task12">C4: Alkali Metal Properties</label></li>
-                     <li><input type="checkbox" id="task13"><label for="task13">C4: Halogen Reactivity Trend</label></li>
-                     <li><input type="checkbox" id="task14"><label for="task14">C4: Noble Gas Properties</label></li>
-                     <li><input type="checkbox" id="task15"><label for="task15">C4: Test for CO₂ Gas</label></li>
-                     <li><input type="checkbox" id="task16"><label for="task16">C4: Identify Transition Metals</label></li>
-                     <li><input type="checkbox" id="task17"><label for="task17">Review C2 Summary Questions</label></li>
-                     <li><input type="checkbox" id="task18"><label for="task18">Review C3 Summary Questions</label></li>
-                     <li><input type="checkbox" id="task19"><label for="task19">Review C4 Summary Questions</label></li>
-                     <li><input type="checkbox" id="task20"><label for="task20">BE A FOKCEN HOTTIE 😩💦</label></li>
-                </ul>
+        <div class="particle-layer" id="particle-layer">
+        </div>
+
+        <nav class="navbar">
+            <a href="#hero" class="logo">CHEMLIYAH GRINDEN 💚🔒</a>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#hero">HOMO</a></li>
+                <li><a href="#goals">GOALZ</a></li>
+                <li><a href="#flashcards">FLOOSHCOORDS</a></li>
+                <li><a href="#lab-of-love">MOTIVATION</a></li>
+            </ul>
+        </nav>
+        <div id="mobile-menu-overlay"></div>
+
+
+        <section id="hero">
+            <div class="hero-content">
+                <h1>CHEMISTRY 😪 OUR CHEMISTRY 😈☝🏿🧑🏿‍🔬 HEY! 😈</h1>
+                <p class="subline">CHEMISTRY MIGHT BE HARD BUT IM HARDER WHEN I SEE YOU 😈😈</p>
+                <a href="#goals" class="cta-button"><span>STARTEN THE GRINDENNNEENNE💥</span></a>
             </div>
-        </div>
-    </section>
+        </section>
 
-     <section id="flashcards" class="revealable">
-        <h2>CUTELY DOEN FLASHCARDS SEXTION 😈</h2>
-         <div class="flashcard-area">
-             <div class="flashcard-topic-group">
-                 <div class="flashcard-topic-header">
-                    <h3>C2: Elements, Compounds & Mixtures</h3>
-                    <button class="shuffle-button" data-topic="C2">SHUFFLE CH'EM (HHOOHH GET IT CUS SUFFLE EM EM CHEM CMENISTRY HOHOOHO OOPS THIS BOX IS GONNA BE TO BIG BUT I WANNA INCLUDE THIS PART IN IM NOT REMVOIGN THIS PART YOURE JS GONAN HAVE TO DEAL WITH THE SUFFLE FLASHCARDDDDS BOX BEIGN THIS BIG OOPZIIESS) 🔀</button>
-                 </div>
-                 <div class="flashcard-container" id="flashcards-c2">
-                 </div>
-             </div>
-             <div class="flashcard-topic-group">
-                  <div class="flashcard-topic-header">
-                    <h3>C3: Chemical Reactions</h3>
-                     <button class="shuffle-button" data-topic="C3">SHUFFLE CH'EM🔀</button>
-                  </div>
-                  <div class="flashcard-container" id="flashcards-c3">
-                  </div>
-              </div>
-               <div class="flashcard-topic-group">
-                   <div class="flashcard-topic-header">
-                      <h3>C4: Predicting Reactions</h3>
-                       <button class="shuffle-button" data-topic="C4">SHUFFLE CH'EM🔀</button>
-                   </div>
-                  <div class="flashcard-container" id="flashcards-c4">
-                  </div>
-              </div>
-        </div>
-     </section>
-
-    <section id="lab-of-love" class="revealable">
-        <h2>MOTIVATION 💙</h2>
-         <p style="text-align:center; margin-bottom: 40px; color: var(--accent-light-teal);">A BIT OF MOTIVATION TO GET BAE GOING!</p>
-        <div class="lab-container" id="lab-container">
-            <div class="message-item revealable">
-                <span class="message-icon icon-test-tube"></span>
-                <p class="message-text">HEY ALIYAHBABY! Just wanted to drop in and say you're js beign a GOAT AS PERRR. Keep pushing, YOU GOT THIS BABY 😈!</p>
-                <p class="message-sender">- Your Biggest Fan HEH! ☝🏿😈😈</p>
-            </div>
-             <div class="message-item revealable audio-note">
-                 <span class="message-icon icon-beaker"></span>
-                 <p class="message-text">CLICK ON THIS WHEN YOURE NOT FEELOGN MOTIVATIONZINGINATION!</p>
-                  <button class="play-audio-btn" data-audio-src="yougotthisbabyYEEHAW.mp3">Play Audio Note 🎧</button>
-                  <audio preload="auto"></audio>
-                 <p class="message-sender">- Secret Supporter 😉</p>
-             </div>
-            <div class="message-item revealable">
-                <span class="message-icon icon-heart-atom"></span>
-                <p class="message-text">REMEMBER THE TIME YOU WERE GOATED OH WAIT BRO IS ALWASY GOATED HOOHHOHOOH? YOU GOT THIS! SENDIGN BAE POSITIVE IONS RN HOHOHOOH🫰🏿🫰🏿🎅🏿🎅🏿!</p>
-                <p class="message-sender">- YOUR HUSBAND 💙</p>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="love-lab" class="revealable">
-        <div id="love-lab-content">
-             <div id="love-reaction-hearts"></div>
-            <h2>ZAA FINALL EXPERIMENT 😈😈😈</h2>
-            <p class="love-lab-instructions">NOW THAT THE CHEMISTORY AHS BEEN COMPLETED TIME TO COMBINE USSS 🥰🥰DRAG ALIYAHNIUM (Ah) AND HASANIUM (Ha) INTO THE BEAKER😭😭!</p>
-            <div class="love-lab-area">
-                <div class="element-block" id="element-ah" draggable="true">
-                    <span class="element-symbol">Ah</span>
-                    <span class="element-name">Aliyahnium</span>
+        <section id="goals" class="revealable">
+            <h2>CHEMCHECKLIST</h2>
+            <div class="goals-container">
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="goal-progress-fill"></div>
+                    <div class="progress-bar-text" id="goal-progress-text">0% Complete</div>
                 </div>
-                <div class="beaker-dropzone" id="beaker">
-                    <div class="beaker-liquid"></div>
-                    <div class="beaker-sparkles"></div>
-                    <span class="beaker-label">Quantum Entanglement Flask</span>
-                </div>
-                <div class="element-block" id="element-ha" draggable="true">
-                    <span class="element-symbol">Ha</span>
-                    <span class="element-name">Hasanium</span>
+                <div class="goal-list">
+                    <ul id="study-checklist">
+                        <li><input type="checkbox" id="task1"><label for="task1">C2: Review Empirical Formula</label></li>
+                        <li><input type="checkbox" id="task2"><label for="task2">C2: Practice Distillation Concept</label></li>
+                        <li><input type="checkbox" id="task3"><label for="task3">C2: Ionic Bonding Rules</label></li>
+                        <li><input type="checkbox" id="task4"><label for="task4">C2: Define Metallic Bonding</label></li>
+                        <li><input type="checkbox" id="task5"><label for="task5">C2: Structure of Metals</label></li>
+                        <li><input type="checkbox" id="task6"><label for="task6">C3: Conservation of Mass Law</label></li>
+                        <li><input type="checkbox" id="task7"><label for="task7">C3: Balance 3 Chemical Equations</label></li>
+                        <li><input type="checkbox" id="task8"><label for="task8">C3: Mole Calculation Practice</label></li>
+                        <li><input type="checkbox" id="task9"><label for="task9">C3: Exothermic vs Endothermic</label></li>
+                        <li><input type="checkbox" id="task10"><label for="task10">C3: Define Redox Reaction</label></li>
+                        <li><input type="checkbox" id="task11"><label for="task11">C3: Electrolysis Basics</label></li>
+                        <li><input type="checkbox" id="task12"><label for="task12">C4: Alkali Metal Properties</label></li>
+                        <li><input type="checkbox" id="task13"><label for="task13">C4: Halogen Reactivity Trend</label></li>
+                        <li><input type="checkbox" id="task14"><label for="task14">C4: Noble Gas Properties</label></li>
+                        <li><input type="checkbox" id="task15"><label for="task15">C4: Test for CO₂ Gas</label></li>
+                        <li><input type="checkbox" id="task16"><label for="task16">C4: Identify Transition Metals</label></li>
+                        <li><input type="checkbox" id="task17"><label for="task17">Review C2 Summary Questions</label></li>
+                        <li><input type="checkbox" id="task18"><label for="task18">Review C3 Summary Questions</label></li>
+                        <li><input type="checkbox" id="task19"><label for="task19">Review C4 Summary Questions</label></li>
+                        <li><input type="checkbox" id="task20"><label for="task20">BE A FOKCEN HOTTIE 😩💦</label></li>
+                    </ul>
                 </div>
             </div>
-            <div id="love-lab-message" class="love-lab-final-message">
-                <p>CONGRATULAAIZOAHIANG! COVALENT AND IONIC BONDS MIGHT BE COOL... BUT OUR BOND IS PERFECT HEH! 😼😼🥰🥰🥰💚💙</p>
+        </section>
+
+        <section id="flashcards" class="revealable">
+            <h2>CUTELY DOEN FLASHCARDS SEXTION 😈</h2>
+            <div class="flashcard-area">
+                <div class="flashcard-topic-group">
+                    <div class="flashcard-topic-header">
+                        <h3>C2: Elements, Compounds & Mixtures</h3>
+                        <button class="shuffle-button" data-topic="C2">SHUFFLE CH'EM (HHOOHH GET IT CUS SUFFLE EM EM CHEM CMENISTRY HOHOOHO OOPS THIS BOX IS GONNA BE TO BIG BUT I WANNA INCLUDE THIS PART IN IM NOT REMVOIGN THIS PART YOURE JS GONAN HAVE TO DEAL WITH THE SUFFLE FLASHCARDDDDS BOX BEIGN THIS BIG OOPZIIESS) 🔀</button>
+                    </div>
+                    <div class="flashcard-container" id="flashcards-c2">
+                    </div>
+                </div>
+                <div class="flashcard-topic-group">
+                    <div class="flashcard-topic-header">
+                        <h3>C3: Chemical Reactions</h3>
+                        <button class="shuffle-button" data-topic="C3">SHUFFLE CH'EM🔀</button>
+                    </div>
+                    <div class="flashcard-container" id="flashcards-c3">
+                    </div>
+                </div>
+                <div class="flashcard-topic-group">
+                    <div class="flashcard-topic-header">
+                        <h3>C4: Predicting Reactions</h3>
+                        <button class="shuffle-button" data-topic="C4">SHUFFLE CH'EM🔀</button>
+                    </div>
+                    <div class="flashcard-container" id="flashcards-c4">
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer>
-        <p class="footer-text">WERE ALL SUPPORTIGN BAE 🙋🏿‍♂️🐈🐈‍⬛</p>
-         <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.6;">© 2027 ASHERBILLAY AND KAOKAOKHARN PRODUCTIONS YET AGAIN</p>
-    </footer>
+        <section id="lab-of-love" class="revealable">
+            <h2>MOTIVATION 💙</h2>
+            <p style="text-align:center; margin-bottom: 40px; color: var(--accent-light-teal);">A BIT OF MOTIVATION TO GET BAE GOING!</p>
+            <div class="lab-container" id="lab-container">
+                <div class="message-item revealable">
+                    <span class="message-icon icon-test-tube"></span>
+                    <p class="message-text">HEY ALIYAHBABY! Just wanted to drop in and say you're js beign a GOAT AS PERRR. Keep pushing, YOU GOT THIS BABY 😈!</p>
+                    <p class="message-sender">- Your Biggest Fan HEH! ☝🏿😈😈</p>
+                </div>
+                <div class="message-item revealable audio-note">
+                    <span class="message-icon icon-beaker"></span>
+                    <p class="message-text">CLICK ON THIS WHEN YOURE NOT FEELOGN MOTIVATIONZINGINATION!</p>
+                    <button class="play-audio-btn" data-audio-src="bb.mp3">Play Audio Note 🎧</button>
+                    <audio preload="auto"></audio>
+                    <p class="message-sender">- Secret Supporter 😉</p>
+                </div>
+                <div class="message-item revealable">
+                    <span class="message-icon icon-heart-atom"></span>
+                    <p class="message-text">REMEMBER THE TIME YOU WERE GOATED OH WAIT BRO IS ALWASY GOATED HOOHHOHOOH? YOU GOT THIS! SENDIGN BAE POSITIVE IONS RN HOHOHOOH🫰🏿🫰🏿🎅🏿🎅🏿!</p>
+                    <p class="message-sender">- YOUR HUSBAND 💙</p>
+                
+            </div>
+        </section>
+
+        <footer>
+            <p class="footer-text">WERE ALL SUPPORTIGN BAE 🙋🏿‍♂️🐈🐈‍⬛</p>
+            <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.6;">© 2027 ASHERBILLAY AND KAOKAOKHARN PRODUCTIONS YET AGAIN</p>
+        </footer>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
 
-            const body = document.body;
-            const backgroundEffectsContainer = document.getElementById('background-effects');
-            const confettiContainer = document.getElementById('confetti-container');
-            const mouseParticleContainer = document.getElementById('mouse-particle-container');
+                const body = document.body;
+                const backgroundEffectsContainer = document.getElementById('background-effects');
+                const confettiContainer = document.getElementById('confetti-container');
+                const mouseParticleContainer = document.getElementById('mouse-particle-container');
 
 
-            const menuToggle = document.getElementById('menu-toggle');
-            const navLinks = document.getElementById('nav-links');
-            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+                const menuToggle = document.getElementById('menu-toggle');
+                const navLinks = document.getElementById('nav-links');
+                const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
 
-            if (menuToggle && navLinks && mobileMenuOverlay) {
-                 const toggleMenu = () => {
-                     const isActive = navLinks.classList.contains('active');
-                     navLinks.classList.toggle('active');
-                     menuToggle.classList.toggle('active');
-                     mobileMenuOverlay.classList.toggle('active');
-                     menuToggle.setAttribute('aria-expanded', !isActive);
-                     body.style.overflow = isActive ? '' : 'hidden';
-                 };
+                if (menuToggle && navLinks && mobileMenuOverlay) {
+                    const toggleMenu = () => {
+                        const isActive = navLinks.classList.contains('active');
+                        navLinks.classList.toggle('active');
+                        menuToggle.classList.toggle('active');
+                        mobileMenuOverlay.classList.toggle('active');
+                        menuToggle.setAttribute('aria-expanded', !isActive);
+                        body.style.overflow = isActive ? '' : 'hidden';
+                    };
 
-                menuToggle.addEventListener('click', toggleMenu);
-                mobileMenuOverlay.addEventListener('click', toggleMenu);
+                    menuToggle.addEventListener('click', toggleMenu);
+                    mobileMenuOverlay.addEventListener('click', toggleMenu);
 
-                navLinks.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        const targetId = link.getAttribute('href');
-                        if (targetId && targetId.startsWith('#')) {
-                            const targetElement = document.querySelector(targetId);
-                            if (targetElement) {
-                                e.preventDefault();
-                                if (navLinks.classList.contains('active')) {
-                                    toggleMenu();
+                    navLinks.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            const targetId = link.getAttribute('href');
+                            if (targetId && targetId.startsWith('#')) {
+                                const targetElement = document.querySelector(targetId);
+                                if (targetElement) {
+                                    e.preventDefault();
+                                    if (navLinks.classList.contains('active')) {
+                                        toggleMenu();
 
-                                    setTimeout(() => {
+                                        setTimeout(() => {
+                                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                                        }, 300);
+                                    } else {
                                         targetElement.scrollIntoView({ behavior: 'smooth' });
-                                    }, 300);
-                                } else {
-                                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                                    }
+                                }
+                            } else if (navLinks.classList.contains('active')) {
+
+                                toggleMenu();
+                            }
+                        });
+                    });
+                }
+
+                const particleLayer = document.getElementById('particle-layer');
+                const particleCount = 40;
+                if (particleLayer) {
+                    for (let i = 0; i < particleCount; i++) {
+                        const particle = document.createElement('div');
+                        particle.classList.add('particle');
+                        if (Math.random() > 0.6) {
+                            particle.classList.add('electron');
+                            particle.style.animationDelay = `${Math.random() * 15}s, ${Math.random() * 2}s`;
+                        } else {
+                            const size = Math.random() * 6 + 3;
+                            particle.style.width = `${size}px`;
+                            particle.style.height = `${size}px`;
+                            particle.style.animationDelay = `${Math.random() * 20}s, ${Math.random() * 4}s`;
+                        }
+                        particle.style.top = `${Math.random() * 100}%`;
+                        particle.style.left = `${Math.random() * 100}%`;
+                        particleLayer.appendChild(particle);
+                    }
+                }
+
+                if (backgroundEffectsContainer) {
+                    const bubbleCount = 15;
+                    const formulaCount = 10;
+                    const formulas = ['H₂O', 'CO₂', 'NaCl', 'C₆H₁₂O₆', 'O₂', 'N₂', 'CH₄', 'NH₃', 'H₂SO₄', 'HCl', 'NaOH', 'Fe₂O₃'];
+
+                    for (let i = 0; i < bubbleCount; i++) {
+                        const bubble = document.createElement('div');
+                        bubble.classList.add('bg-bubble');
+                        const size = Math.random() * 15 + 5;
+                        bubble.style.width = `${size}px`;
+                        bubble.style.height = `${size}px`;
+                        bubble.style.left = `${Math.random() * 100}%`;
+                        bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                        bubble.style.animationDelay = `${Math.random() * 15}s`;
+                        if (Math.random() > 0.5) {
+                            bubble.classList.add('teal');
+                        }
+                        backgroundEffectsContainer.appendChild(bubble);
+                    }
+
+                    for (let i = 0; i < formulaCount; i++) {
+                        const formula = document.createElement('div');
+                        formula.classList.add('floating-formula');
+                        formula.textContent = formulas[Math.floor(Math.random() * formulas.length)];
+                        formula.style.left = `${Math.random() * 90 + 5}%`;
+                        formula.style.fontSize = `${Math.random() * 1 + 1}rem`;
+                        formula.style.animationDuration = `${Math.random() * 20 + 25}s`;
+                        formula.style.animationDelay = `${Math.random() * 30}s`;
+                        backgroundEffectsContainer.appendChild(formula);
+                    }
+                }
+
+
+                if (mouseParticleContainer && window.matchMedia('(pointer: fine)').matches) {
+                    let particleIndex = 0;
+                    const maxParticles = 30;
+                    const particles = [];
+
+                    const createMouseParticle = (x, y) => {
+                        const particle = document.createElement('div');
+                        particle.classList.add('mouse-particle');
+                        particle.style.left = `${x}px`;
+                        particle.style.top = `${y}px`;
+
+
+                        const colors = ['var(--accent-teal)', 'var(--highlight-blue)', 'var(--accent-light-teal)'];
+                        particle.style.background = colors[particleIndex % colors.length];
+                        particle.style.boxShadow = `0 0 5px ${colors[particleIndex % colors.length]}66`;
+
+                        mouseParticleContainer.appendChild(particle);
+                        particles.push(particle);
+                        particleIndex++;
+
+
+                        if (particles.length > maxParticles) {
+                            const oldParticle = particles.shift();
+                            if (oldParticle && oldParticle.parentNode) {
+                                oldParticle.parentNode.removeChild(oldParticle);
+                            }
+                        }
+
+
+
+                        requestAnimationFrame(() => {
+                            const angle = Math.random() * Math.PI * 2;
+                            const distance = Math.random() * 20 + 10;
+                            const finalX = x + Math.cos(angle) * distance;
+                            const finalY = y + Math.sin(angle) * distance;
+
+                            particle.style.transform = `translate(${finalX - x}px, ${finalY - y}px) scale(0)`;
+                            particle.style.opacity = '0';
+
+
+                            setTimeout(() => {
+                                if (particle.parentNode) {
+                                    particle.parentNode.removeChild(particle);
+                                    const index = particles.indexOf(particle);
+                                    if (index > -1) {
+                                        particles.splice(index, 1);
+                                    }
+                                }
+                            }, 500);
+                        });
+                    };
+
+
+                    let lastMoveTime = 0;
+                    const throttleDelay = 25;
+
+                    window.addEventListener('mousemove', (e) => {
+                        const now = Date.now();
+                        if (now - lastMoveTime > throttleDelay) {
+                            createMouseParticle(e.clientX, e.clientY);
+                            lastMoveTime = now;
+                        }
+                    });
+                }
+
+
+                const checklist = document.getElementById('study-checklist');
+                const progressBarFill = document.getElementById('goal-progress-fill');
+                const progressBarText = document.getElementById('goal-progress-text');
+
+                function createRipple(event) {
+                    const li = event.target.closest('li');
+                    if (!li) return;
+
+                    const ripple = document.createElement("span");
+                    ripple.classList.add("ripple");
+
+                    const size = Math.max(li.clientWidth, li.clientHeight);
+                    const rect = event.target.getBoundingClientRect();
+                    const x = event.clientX - rect.left - size / 2;
+                    const y = event.clientY - rect.top - size / 2;
+
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${event.target.offsetLeft + event.target.offsetWidth / 2 - size/2}px`;
+                    ripple.style.top = `${event.target.offsetTop + event.target.offsetHeight / 2 - size/2}px`;
+
+                    li.appendChild(ripple);
+
+                    ripple.addEventListener('animationend', () => {
+                        ripple.remove();
+                    });
+                }
+
+                function updateProgressBar() {
+                    if (!checklist || !progressBarFill || !progressBarText) return;
+                    const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
+                    const totalTasks = checkboxes.length;
+                    if (totalTasks === 0) return;
+
+                    const completedTasks = Array.from(checkboxes).filter(cb => cb.checked).length;
+                    const percentage = Math.round((completedTasks / totalTasks) * 100);
+
+                    progressBarFill.style.width = `${percentage}%`;
+                    progressBarText.textContent = `${percentage}% Complete`;
+
+                    checkAllGoalsComplete(completedTasks, totalTasks);
+                }
+
+                function checkAllGoalsComplete(completed, total) {
+                    if (!checklist) return;
+                    const allChecked = completed === total && total > 0;
+
+                    if (allChecked) {
+
+                        if (!sessionStorage.getItem('goalsCompleteConfetti')) {
+                            triggerConfetti();
+                            sessionStorage.setItem('goalsCompleteConfetti', 'true');
+                        }
+                    }
+                }
+
+                function triggerConfetti() {
+                    if (!confettiContainer) return;
+                    const colors = ['var(--accent-teal)', 'var(--highlight-blue)', '#ffffff', '#99f6e4'];
+                    const confettiCount = 60;
+
+                    for (let i = 0; i < confettiCount; i++) {
+                        const confetti = document.createElement('div');
+                        confetti.classList.add('confetti');
+                        confetti.style.left = `${Math.random() * 100}%`;
+                        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                        const duration = Math.random() * 1.5 + 3;
+                        confetti.style.animationDuration = `${duration}s`;
+                        confetti.style.animationDelay = `${Math.random() * 1}s`;
+                        confetti.style.width = `${Math.random() * 4 + 6}px`;
+                        confetti.style.height = `${Math.random() * 8 + 12}px`;
+                        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                        confetti.style.opacity = `${Math.random() * 0.5 + 0.5}`;
+
+                        confetti.addEventListener('animationend', () => {
+                            confetti.remove();
+                        });
+                        confettiContainer.appendChild(confetti);
+                    }
+                }
+
+
+                if (checklist) {
+                    const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
+                    checkboxes.forEach(checkbox => {
+                        const key = checkbox.id;
+
+                        if (localStorage.getItem(`goal-${key}`) === 'true') {
+                            checkbox.checked = true;
+                        }
+
+
+                        checkbox.addEventListener('change', (e) => {
+                            if (e.target.checked) {
+                                localStorage.setItem(`goal-${key}`, 'true');
+                                createRipple(e);
+                            } else {
+                                localStorage.removeItem(`goal-${key}`);
+                                sessionStorage.removeItem('goalsCompleteConfetti');
+                            }
+                            updateProgressBar();
+                        });
+                    });
+
+                    updateProgressBar();
+                }
+
+                const flashcardData = [
+                    { id: "fc-mr", term: "Relative Formula Mass (Mr)", definition: "Sum of the relative atomic masses (Ar) of all atoms shown in a chemical formula.", tag: "C2.1.1", topic: "C2", difficulty: "easy" },
+                    { id: "fc-empirical", term: "Empirical Formula", definition: "The simplest whole-number ratio of atoms of each element present in a compound.", tag: "C2.1.2", topic: "C2", difficulty: "medium" },
+                    { id: "fc-pure", term: "Pure Substance", definition: "A single element or compound, not mixed with any other substance; has specific melting/boiling points.", tag: "C2.1.3", topic: "C2", difficulty: "easy" },
+                    { id: "fc-filtration", term: "Filtration", definition: "Separating an insoluble solid from a liquid using filter paper.", tag: "C2.1.4", topic: "C2", difficulty: "easy", diagram: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Filtration_diagram.svg/200px-Filtration_diagram.svg.png"},
+                    { id: "fc-crystallisation", term: "Crystallisation", definition: "Obtaining a soluble solid from a solution by evaporating the solvent.", tag: "C2.1.4", topic: "C2", difficulty: "medium"},
+                    { id: "fc-distillation", term: "Distillation", definition: "Separation technique used to separate liquids with different boiling points. Lower boiling point liquid evaporates first.", tag: "C2.1.5", topic: "C2", difficulty: "medium", diagram: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Simple_distillation_apparatus.svg/200px-Simple_distillation_apparatus.svg.png"},
+                    { id: "fc-chromatography", term: "Chromatography", definition: "Separation technique based on different solubilities of components in a solvent as it moves up paper.", tag: "C2.1.6", topic: "C2", difficulty: "hard" },
+                    { id: "fc-ionicbond", term: "Ionic Bonding", definition: "Electrostatic attraction between oppositely charged ions (metal + non-metal). Transfer of electrons.", tag: "C2.2.4", topic: "C2", difficulty: "medium" },
+                    { id: "fc-metallicbond", term: "Metallic Bonding", definition: "Attraction between positive metal ions and a 'sea' of delocalised electrons.", tag: "C2.2.8", topic: "C2", difficulty: "medium" },
+
+                    { id: "fc-consmass", term: "Conservation of Mass", definition: "Mass is neither created nor destroyed in a chemical reaction. Total mass of reactants = total mass of products.", tag: "C3.1.3", topic: "C3", difficulty: "easy" },
+                    { id: "fc-mole", term: "Mole (Avogadro Constant)", definition: "Amount of substance containing 6.02 x 10²³ particles (atoms, molecules, ions).", tag: "C3.1.6", topic: "C3", difficulty: "medium" },
+                    { id: "fc-molecalc", term: "Mole Calculation (Mass)", definition: "Moles = Mass (g) / Mr (Relative Formula Mass)", tag: "C3.1.7", topic: "C3", difficulty: "easy" },
+                    { id: "fc-exothermic", term: "Exothermic Reaction", definition: "Releases energy to surroundings (ΔH is negative); temperature increases. E.g., combustion.", tag: "C3.2.1", topic: "C3", difficulty: "medium" },
+                    { id: "fc-endothermic", term: "Endothermic Reaction", definition: "Absorbs energy from surroundings (ΔH is positive); temperature decreases. E.g., thermal decomposition.", tag: "C3.2.1", topic: "C3", difficulty: "medium" },
+                    { id: "fc-energychange", term: "Calculating Energy Change (ΔH)", definition: "Energy change = Energy taken in (bond breaking) - Energy released (bond making).", tag: "C3.2.3", topic: "C3", difficulty: "hard" },
+                    { id: "fc-redox", term: "Redox Reaction", definition: "A reaction involving both Oxidation (Loss of electrons) and Reduction (Gain of electrons). OILRIG.", tag: "C3.3.1", topic: "C3", difficulty: "medium" },
+                    { id: "fc-neutralisation", term: "Neutralisation", definition: "Reaction between an acid and a base/alkali, forming salt and water (usually pH 7). H⁺ + OH⁻ → H₂O", tag: "C3.3.3", topic: "C3", difficulty: "easy" },
+                    { id: "fc-electrolysis", term: "Electrolysis", definition: "The breakdown of an ionic compound (molten or aqueous) using electricity. Cathode (-): Reduction, Anode (+): Oxidation.", tag: "C3.4", topic: "C3", difficulty: "hard", diagram: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Electrolysis_of_water_diagram.svg/200px-Electrolysis_of_water_diagram.svg.png"},
+
+                    { id: "fc-alkali", term: "Alkali Metals (Group 1)", definition: "Highly reactive metals, low density, form +1 ions, reactivity increases down group. Soft, low melting points.", tag: "C4.1.1", topic: "C4", difficulty: "easy" },
+                    { id: "fc-halogens", term: "Halogens (Group 7)", definition: "Reactive non-metals (diatomic), form -1 ions, reactivity decreases down group. Form coloured vapours.", tag: "C4.1.2", topic: "C4", difficulty: "medium" },
+                    { id: "fc-halogendisp", term: "Halogen Displacement", definition: "A more reactive halogen displaces a less reactive halogen from its salt solution. E.g., Cl₂ + 2KBr → 2KCl + Br₂.", tag: "C4.1.3", topic: "C4", difficulty: "medium" },
+                    { id: "fc-noblegas", term: "Noble Gases (Group 0)", definition: "Unreactive, colourless gases, full outer shells, boiling points increase down group.", tag: "C4.1.4", topic: "C4", difficulty: "easy" },
+                    { id: "fc-transition", term: "Transition Metals", definition: "Metals in central block; form coloured compounds, act as catalysts, variable oxidation states, high density/melting points.", tag: "C4.1.5", topic: "C4", difficulty: "medium" },
+                    { id: "fc-reactivity", term: "Reactivity Series", definition: "List of metals ordered by reactivity (e.g., K > Na > Ca > Mg > Al > (C) > Zn > Fe > (H) > Cu > Ag > Au).", tag: "C4.1.6", topic: "C4", difficulty: "medium" },
+                    { id: "fc-testco2", term: "Test for Carbon Dioxide (CO₂)", definition: "Bubble gas through limewater (Ca(OH)₂) -> turns cloudy/milky due to CaCO₃ precipitate.", tag: "C4.2.1", topic: "C4", difficulty: "easy" },
+                    { id: "fc-testcations", term: "Test for Cations (Flame Test)", definition: "Dip wire in sample, hold in blue Bunsen flame. Li⁺: Red, Na⁺: Yellow, K⁺: Lilac, Ca²⁺: Orange-red, Cu²⁺: Green-blue.", tag: "C4.2.2", topic: "C4", difficulty: "medium" },
+                    { id: "fc-testanions", term: "Test for Anions (e.g., Cl⁻)", definition: "Add dilute nitric acid (removes carbonates), then silver nitrate solution. Cl⁻: White ppt, Br⁻: Cream ppt, I⁻: Yellow ppt.", tag: "C4.2.3", topic: "C4", difficulty: "hard" },
+                ];
+
+                function populateFlashcards(topic = null) {
+                    const containers = {
+                        C2: document.getElementById('flashcards-c2'),
+                        C3: document.getElementById('flashcards-c3'),
+                        C4: document.getElementById('flashcards-c4')
+                    };
+
+                    const shuffleArray = (array) => array.sort(() => 0.5 - Math.random());
+
+                    const createCardElement = (cardData) => {
+                        const flashcard = document.createElement('div');
+                        const cardKey = cardData.id || `flashcard-${cardData.tag || cardData.term.replace(/\s+/g, '-')}`;
+                        const savedDifficulty = localStorage.getItem(`${cardKey}-difficulty`) || cardData.difficulty || 'medium';
+
+                        flashcard.classList.add('flashcard', 'revealable', `difficulty-${savedDifficulty}`);
+                        flashcard.dataset.key = cardKey;
+
+                        const inner = document.createElement('div');
+                        inner.classList.add('flashcard-inner');
+
+                        const front = document.createElement('div');
+                        front.classList.add('flashcard-front');
+                        front.innerHTML = `<p>${cardData.term}</p>`;
+
+                        const back = document.createElement('div');
+                        back.classList.add('flashcard-back');
+                        back.innerHTML = `<p>${cardData.definition}</p>`;
+                        if (cardData.diagram) {
+                            const img = document.createElement('img');
+                            img.src = cardData.diagram;
+                            img.alt = `${cardData.term} diagram`;
+                            img.classList.add('flashcard-diagram');
+                            img.loading = 'lazy';
+                            back.appendChild(img);
+                        }
+
+
+                        const tag = document.createElement('div');
+                        tag.classList.add('flashcard-tag');
+                        tag.textContent = cardData.tag || 'N/A';
+
+                        const difficultyControls = document.createElement('div');
+                        difficultyControls.classList.add('flashcard-difficulty-controls');
+                        ['easy', 'medium', 'hard'].forEach(level => {
+                            const btn = document.createElement('button');
+                            btn.classList.add('difficulty-button', level);
+                            btn.dataset.difficulty = level;
+                            btn.title = `Mark as ${level}`;
+                            if (level === savedDifficulty) {
+                                btn.classList.add('active');
+                            }
+                            btn.addEventListener('click', (e) => {
+                                    e.stopPropagation();
+                                    const currentCard = e.target.closest('.flashcard');
+                                    const newDifficulty = e.target.dataset.difficulty;
+                                    const cardKey = currentCard.dataset.key;
+
+
+                                    localStorage.setItem(`${cardKey}-difficulty`, newDifficulty);
+
+
+                                    currentCard.classList.remove('difficulty-easy', 'difficulty-medium', 'difficulty-hard');
+                                    currentCard.classList.add(`difficulty-${newDifficulty}`);
+
+
+                                    difficultyControls.querySelectorAll('.difficulty-button').forEach(b => b.classList.remove('active'));
+                                    e.target.classList.add('active');
+                            });
+                            difficultyControls.appendChild(btn);
+                        });
+
+
+                        inner.appendChild(front);
+                        inner.appendChild(back);
+                        flashcard.appendChild(tag);
+                        flashcard.appendChild(difficultyControls);
+                        flashcard.appendChild(inner);
+
+                        flashcard.addEventListener('click', () => {
+                            flashcard.classList.toggle('flipped');
+                        });
+                        return flashcard;
+                    }
+
+                    const topicsToPopulate = topic ? [topic] : Object.keys(containers);
+
+                    topicsToPopulate.forEach(currentTopic => {
+                        const container = containers[currentTopic];
+                        if (!container) return;
+
+                        container.innerHTML = '';
+
+                        const topicCards = flashcardData.filter(c => c.topic === currentTopic);
+                        shuffleArray(topicCards).slice(0, 9).forEach(cardData => {
+                            container.appendChild(createCardElement(cardData));
+                        });
+
+
+                        if (window.revealObserver) {
+                            container.querySelectorAll('.flashcard').forEach(el => window.revealObserver.observe(el));
+                        }
+                    });
+                }
+
+                populateFlashcards();
+
+
+                document.querySelectorAll('.shuffle-button').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const topic = button.dataset.topic;
+                        populateFlashcards(topic);
+
+                        const container = document.getElementById(`flashcards-${topic}`);
+                        if (container) {
+                            container.style.transition = 'opacity 0.3s ease-out';
+                            container.style.opacity = '0.5';
+                            setTimeout(() => { container.style.opacity = '1'; }, 300);
+                        }
+                    });
+                });
+
+                const audioButtons = document.querySelectorAll('.play-audio-btn');
+                let currentAudio = null;
+                let currentButton = null;
+
+                audioButtons.forEach(button => {
+                    const audioSrc = button.dataset.audioSrc;
+                    const audioElement = button.parentElement.querySelector('audio');
+
+                    if (audioSrc && audioElement) {
+                        audioElement.src = audioSrc;
+
+                        button.addEventListener('click', () => {
+                            if (currentAudio && currentAudio !== audioElement) {
+                                currentAudio.pause();
+                                currentAudio.currentTime = 0;
+                                if (currentButton) {
+                                    currentButton.textContent = 'Play Audio Note 🎧';
+                                    currentButton.style.background = 'var(--love-color)';
                                 }
                             }
-                        } else if (navLinks.classList.contains('active')) {
 
-                            toggleMenu();
-                        }
-                    });
-                });
-            }
-
-            const particleLayer = document.getElementById('particle-layer');
-            const particleCount = 40;
-            if (particleLayer) {
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    if (Math.random() > 0.6) {
-                         particle.classList.add('electron');
-                         particle.style.animationDelay = `${Math.random() * 15}s, ${Math.random() * 2}s`;
-                    } else {
-                         const size = Math.random() * 6 + 3;
-                         particle.style.width = `${size}px`;
-                         particle.style.height = `${size}px`;
-                         particle.style.animationDelay = `${Math.random() * 20}s, ${Math.random() * 4}s`;
-                    }
-                    particle.style.top = `${Math.random() * 100}%`;
-                    particle.style.left = `${Math.random() * 100}%`;
-                    particleLayer.appendChild(particle);
-                }
-            }
-
-             if (backgroundEffectsContainer) {
-                const bubbleCount = 15;
-                const formulaCount = 10;
-                const formulas = ['H₂O', 'CO₂', 'NaCl', 'C₆H₁₂O₆', 'O₂', 'N₂', 'CH₄', 'NH₃', 'H₂SO₄', 'HCl', 'NaOH', 'Fe₂O₃'];
-
-                for (let i = 0; i < bubbleCount; i++) {
-                    const bubble = document.createElement('div');
-                    bubble.classList.add('bg-bubble');
-                    const size = Math.random() * 15 + 5;
-                    bubble.style.width = `${size}px`;
-                    bubble.style.height = `${size}px`;
-                    bubble.style.left = `${Math.random() * 100}%`;
-                    bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
-                    bubble.style.animationDelay = `${Math.random() * 15}s`;
-                    if (Math.random() > 0.5) {
-                        bubble.classList.add('teal');
-                    }
-                    backgroundEffectsContainer.appendChild(bubble);
-                }
-
-                for (let i = 0; i < formulaCount; i++) {
-                     const formula = document.createElement('div');
-                     formula.classList.add('floating-formula');
-                     formula.textContent = formulas[Math.floor(Math.random() * formulas.length)];
-                     formula.style.left = `${Math.random() * 90 + 5}%`;
-                     formula.style.fontSize = `${Math.random() * 1 + 1}rem`;
-                     formula.style.animationDuration = `${Math.random() * 20 + 25}s`;
-                     formula.style.animationDelay = `${Math.random() * 30}s`;
-                     backgroundEffectsContainer.appendChild(formula);
-                 }
-             }
-
-
-            if (mouseParticleContainer && window.matchMedia('(pointer: fine)').matches) {
-                let particleIndex = 0;
-                const maxParticles = 30;
-                const particles = [];
-
-                const createMouseParticle = (x, y) => {
-                    const particle = document.createElement('div');
-                    particle.classList.add('mouse-particle');
-                    particle.style.left = `${x}px`;
-                    particle.style.top = `${y}px`;
-
-
-                     const colors = ['var(--accent-teal)', 'var(--highlight-blue)', 'var(--accent-light-teal)'];
-                     particle.style.background = colors[particleIndex % colors.length];
-                     particle.style.boxShadow = `0 0 5px ${colors[particleIndex % colors.length]}66`;
-
-                    mouseParticleContainer.appendChild(particle);
-                    particles.push(particle);
-                    particleIndex++;
-
-
-                     if (particles.length > maxParticles) {
-                         const oldParticle = particles.shift();
-                         if (oldParticle && oldParticle.parentNode) {
-                            oldParticle.parentNode.removeChild(oldParticle);
-                         }
-                     }
-
-
-
-                    requestAnimationFrame(() => {
-                        const angle = Math.random() * Math.PI * 2;
-                        const distance = Math.random() * 20 + 10;
-                        const finalX = x + Math.cos(angle) * distance;
-                        const finalY = y + Math.sin(angle) * distance;
-
-                        particle.style.transform = `translate(${finalX - x}px, ${finalY - y}px) scale(0)`;
-                        particle.style.opacity = '0';
-
-
-                         setTimeout(() => {
-                             if (particle.parentNode) {
-                                 particle.parentNode.removeChild(particle);
-                                 const index = particles.indexOf(particle);
-                                 if (index > -1) {
-                                     particles.splice(index, 1);
-                                 }
-                             }
-                         }, 500);
-                    });
-                };
-
-
-                 let lastMoveTime = 0;
-                 const throttleDelay = 25;
-
-                 window.addEventListener('mousemove', (e) => {
-                     const now = Date.now();
-                     if (now - lastMoveTime > throttleDelay) {
-                         createMouseParticle(e.clientX, e.clientY);
-                         lastMoveTime = now;
-                     }
-                 });
-            }
-
-
-             const checklist = document.getElementById('study-checklist');
-             const progressBarFill = document.getElementById('goal-progress-fill');
-             const progressBarText = document.getElementById('goal-progress-text');
-
-             function createRipple(event) {
-                 const li = event.target.closest('li');
-                 if (!li) return;
-
-                 const ripple = document.createElement("span");
-                 ripple.classList.add("ripple");
-
-                 const size = Math.max(li.clientWidth, li.clientHeight);
-                 const rect = event.target.getBoundingClientRect();
-                 const x = event.clientX - rect.left - size / 2;
-                 const y = event.clientY - rect.top - size / 2;
-
-                 ripple.style.width = ripple.style.height = `${size}px`;
-                 ripple.style.left = `${event.target.offsetLeft + event.target.offsetWidth / 2 - size/2}px`;
-                 ripple.style.top = `${event.target.offsetTop + event.target.offsetHeight / 2 - size/2}px`;
-
-                 li.appendChild(ripple);
-
-                 ripple.addEventListener('animationend', () => {
-                     ripple.remove();
-                 });
-             }
-
-
-             function checkAllGoalsComplete(completed, total) {
-                if (!checklist) return;
-                const allChecked = completed === total && total > 0;
-
-                 if (allChecked) {
-
-                     if (!sessionStorage.getItem('goalsCompleteConfetti')) {
-                         triggerConfetti();
-                         sessionStorage.setItem('goalsCompleteConfetti', 'true');
-                     }
-                 }
-             }
-
-             function triggerConfetti() {
-                 if (!confettiContainer) return;
-                 const colors = ['var(--accent-teal)', 'var(--highlight-blue)', '#ffffff', '#99f6e4'];
-                 const confettiCount = 60;
-
-                 for (let i = 0; i < confettiCount; i++) {
-                     const confetti = document.createElement('div');
-                     confetti.classList.add('confetti');
-                     confetti.style.left = `${Math.random() * 100}%`;
-                     confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                     const duration = Math.random() * 1.5 + 3;
-                     confetti.style.animationDuration = `${duration}s`;
-                     confetti.style.animationDelay = `${Math.random() * 1}s`;
-                     confetti.style.width = `${Math.random() * 4 + 6}px`;
-                     confetti.style.height = `${Math.random() * 8 + 12}px`;
-                     confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                     confetti.style.opacity = `${Math.random() * 0.5 + 0.5}`;
-
-                     confetti.addEventListener('animationend', () => {
-                        confetti.remove();
-                     });
-                     confettiContainer.appendChild(confetti);
-                 }
-             }
-
-
-             if (checklist) {
-                const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                     const key = checkbox.id;
-
-                     if (localStorage.getItem(`goal-${key}`) === 'true') {
-                         checkbox.checked = true;
-                     }
-
-
-                     checkbox.addEventListener('change', (e) => {
-                          if (e.target.checked) {
-                              localStorage.setItem(`goal-${key}`, 'true');
-                              createRipple(e);
-                          } else {
-                              localStorage.removeItem(`goal-${key}`);
-                               sessionStorage.removeItem('goalsCompleteConfetti');
-
-                               if (loveLabRevealed) checkAndRevealLoveLab();
-                          }
-                         updateProgressBar();
-                     });
-                 });
-
-             }
-
-             const flashcardData = [
-                 { id: "fc-mr", term: "Relative Formula Mass (Mr)", definition: "Sum of the relative atomic masses (Ar) of all atoms shown in a chemical formula.", tag: "C2.1.1", topic: "C2", difficulty: "easy" },
-                 { id: "fc-empirical", term: "Empirical Formula", definition: "The simplest whole-number ratio of atoms of each element present in a compound.", tag: "C2.1.2", topic: "C2", difficulty: "medium" },
-                 { id: "fc-pure", term: "Pure Substance", definition: "A single element or compound, not mixed with any other substance; has specific melting/boiling points.", tag: "C2.1.3", topic: "C2", difficulty: "easy" },
-                 { id: "fc-filtration", term: "Filtration", definition: "Separating an insoluble solid from a liquid using filter paper.", tag: "C2.1.4", topic: "C2", difficulty: "easy", diagram: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Filtration_diagram.svg/200px-Filtration_diagram.svg.png"},
-                 { id: "fc-crystallisation", term: "Crystallisation", definition: "Obtaining a soluble solid from a solution by evaporating the solvent.", tag: "C2.1.4", topic: "C2", difficulty: "medium"},
-                 { id: "fc-distillation", term: "Distillation", definition: "Separation technique used to separate liquids with different boiling points. Lower boiling point liquid evaporates first.", tag: "C2.1.5", topic: "C2", difficulty: "medium", diagram: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Simple_distillation_apparatus.svg/200px-Simple_distillation_apparatus.svg.png"},
-                 { id: "fc-chromatography", term: "Chromatography", definition: "Separation technique based on different solubilities of components in a solvent as it moves up paper.", tag: "C2.1.6", topic: "C2", difficulty: "hard" },
-                 { id: "fc-ionicbond", term: "Ionic Bonding", definition: "Electrostatic attraction between oppositely charged ions (metal + non-metal). Transfer of electrons.", tag: "C2.2.4", topic: "C2", difficulty: "medium" },
-                 { id: "fc-metallicbond", term: "Metallic Bonding", definition: "Attraction between positive metal ions and a 'sea' of delocalised electrons.", tag: "C2.2.8", topic: "C2", difficulty: "medium" },
-
-                 { id: "fc-consmass", term: "Conservation of Mass", definition: "Mass is neither created nor destroyed in a chemical reaction. Total mass of reactants = total mass of products.", tag: "C3.1.3", topic: "C3", difficulty: "easy" },
-                 { id: "fc-mole", term: "Mole (Avogadro Constant)", definition: "Amount of substance containing 6.02 x 10²³ particles (atoms, molecules, ions).", tag: "C3.1.6", topic: "C3", difficulty: "medium" },
-                  { id: "fc-molecalc", term: "Mole Calculation (Mass)", definition: "Moles = Mass (g) / Mr (Relative Formula Mass)", tag: "C3.1.7", topic: "C3", difficulty: "easy" },
-                 { id: "fc-exothermic", term: "Exothermic Reaction", definition: "Releases energy to surroundings (ΔH is negative); temperature increases. E.g., combustion.", tag: "C3.2.1", topic: "C3", difficulty: "medium" },
-                 { id: "fc-endothermic", term: "Endothermic Reaction", definition: "Absorbs energy from surroundings (ΔH is positive); temperature decreases. E.g., thermal decomposition.", tag: "C3.2.1", topic: "C3", difficulty: "medium" },
-                  { id: "fc-energychange", term: "Calculating Energy Change (ΔH)", definition: "Energy change = Energy taken in (bond breaking) - Energy released (bond making).", tag: "C3.2.3", topic: "C3", difficulty: "hard" },
-                 { id: "fc-redox", term: "Redox Reaction", definition: "A reaction involving both Oxidation (Loss of electrons) and Reduction (Gain of electrons). OILRIG.", tag: "C3.3.1", topic: "C3", difficulty: "medium" },
-                  { id: "fc-neutralisation", term: "Neutralisation", definition: "Reaction between an acid and a base/alkali, forming salt and water (usually pH 7). H⁺ + OH⁻ → H₂O", tag: "C3.3.3", topic: "C3", difficulty: "easy" },
-                 { id: "fc-electrolysis", term: "Electrolysis", definition: "The breakdown of an ionic compound (molten or aqueous) using electricity. Cathode (-): Reduction, Anode (+): Oxidation.", tag: "C3.4", topic: "C3", difficulty: "hard", diagram: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Electrolysis_of_water_diagram.svg/200px-Electrolysis_of_water_diagram.svg.png"},
-
-                 { id: "fc-alkali", term: "Alkali Metals (Group 1)", definition: "Highly reactive metals, low density, form +1 ions, reactivity increases down group. Soft, low melting points.", tag: "C4.1.1", topic: "C4", difficulty: "easy" },
-                 { id: "fc-halogens", term: "Halogens (Group 7)", definition: "Reactive non-metals (diatomic), form -1 ions, reactivity decreases down group. Form coloured vapours.", tag: "C4.1.2", topic: "C4", difficulty: "medium" },
-                 { id: "fc-halogendisp", term: "Halogen Displacement", definition: "A more reactive halogen displaces a less reactive halogen from its salt solution. E.g., Cl₂ + 2KBr → 2KCl + Br₂.", tag: "C4.1.3", topic: "C4", difficulty: "medium" },
-                 { id: "fc-noblegas", term: "Noble Gases (Group 0)", definition: "Unreactive, colourless gases, full outer shells, boiling points increase down group.", tag: "C4.1.4", topic: "C4", difficulty: "easy" },
-                 { id: "fc-transition", term: "Transition Metals", definition: "Metals in central block; form coloured compounds, act as catalysts, variable oxidation states, high density/melting points.", tag: "C4.1.5", topic: "C4", difficulty: "medium" },
-                 { id: "fc-reactivity", term: "Reactivity Series", definition: "List of metals ordered by reactivity (e.g., K > Na > Ca > Mg > Al > (C) > Zn > Fe > (H) > Cu > Ag > Au).", tag: "C4.1.6", topic: "C4", difficulty: "medium" },
-                 { id: "fc-testco2", term: "Test for Carbon Dioxide (CO₂)", definition: "Bubble gas through limewater (Ca(OH)₂) -> turns cloudy/milky due to CaCO₃ precipitate.", tag: "C4.2.1", topic: "C4", difficulty: "easy" },
-                 { id: "fc-testcations", term: "Test for Cations (Flame Test)", definition: "Dip wire in sample, hold in blue Bunsen flame. Li⁺: Red, Na⁺: Yellow, K⁺: Lilac, Ca²⁺: Orange-red, Cu²⁺: Green-blue.", tag: "C4.2.2", topic: "C4", difficulty: "medium" },
-                 { id: "fc-testanions", term: "Test for Anions (e.g., Cl⁻)", definition: "Add dilute nitric acid (removes carbonates), then silver nitrate solution. Cl⁻: White ppt, Br⁻: Cream ppt, I⁻: Yellow ppt.", tag: "C4.2.3", topic: "C4", difficulty: "hard" },
-              ];
-
-             function populateFlashcards(topic = null) {
-                 const containers = {
-                     C2: document.getElementById('flashcards-c2'),
-                     C3: document.getElementById('flashcards-c3'),
-                     C4: document.getElementById('flashcards-c4')
-                 };
-
-                 const shuffleArray = (array) => array.sort(() => 0.5 - Math.random());
-
-                 const createCardElement = (cardData) => {
-                      const flashcard = document.createElement('div');
-                      const cardKey = cardData.id || `flashcard-${cardData.tag || cardData.term.replace(/\s+/g, '-')}`;
-                      const savedDifficulty = localStorage.getItem(`${cardKey}-difficulty`) || cardData.difficulty || 'medium';
-
-                      flashcard.classList.add('flashcard', 'revealable', `difficulty-${savedDifficulty}`);
-                      flashcard.dataset.key = cardKey;
-
-                      const inner = document.createElement('div');
-                      inner.classList.add('flashcard-inner');
-
-                      const front = document.createElement('div');
-                      front.classList.add('flashcard-front');
-                      front.innerHTML = `<p>${cardData.term}</p>`;
-
-                      const back = document.createElement('div');
-                      back.classList.add('flashcard-back');
-                      back.innerHTML = `<p>${cardData.definition}</p>`;
-                      if (cardData.diagram) {
-                        const img = document.createElement('img');
-                        img.src = cardData.diagram;
-                        img.alt = `${cardData.term} diagram`;
-                        img.classList.add('flashcard-diagram');
-                        img.loading = 'lazy';
-                        back.appendChild(img);
-                      }
-
-
-                       const tag = document.createElement('div');
-                       tag.classList.add('flashcard-tag');
-                       tag.textContent = cardData.tag || 'N/A';
-
-                       const difficultyControls = document.createElement('div');
-                       difficultyControls.classList.add('flashcard-difficulty-controls');
-                       ['easy', 'medium', 'hard'].forEach(level => {
-                           const btn = document.createElement('button');
-                           btn.classList.add('difficulty-button', level);
-                           btn.dataset.difficulty = level;
-                           btn.title = `Mark as ${level}`;
-                           if (level === savedDifficulty) {
-                               btn.classList.add('active');
-                           }
-                           btn.addEventListener('click', (e) => {
-                                e.stopPropagation();
-                                const currentCard = e.target.closest('.flashcard');
-                                const newDifficulty = e.target.dataset.difficulty;
-                                const cardKey = currentCard.dataset.key;
-
-
-                                localStorage.setItem(`${cardKey}-difficulty`, newDifficulty);
-
-
-                                currentCard.classList.remove('difficulty-easy', 'difficulty-medium', 'difficulty-hard');
-                                currentCard.classList.add(`difficulty-${newDifficulty}`);
-
-
-                                difficultyControls.querySelectorAll('.difficulty-button').forEach(b => b.classList.remove('active'));
-                                e.target.classList.add('active');
-                           });
-                           difficultyControls.appendChild(btn);
-                       });
-
-
-                      inner.appendChild(front);
-                      inner.appendChild(back);
-                      flashcard.appendChild(tag);
-                      flashcard.appendChild(difficultyControls);
-                      flashcard.appendChild(inner);
-
-                      flashcard.addEventListener('click', () => {
-                          flashcard.classList.toggle('flipped');
-                      });
-                      return flashcard;
-                 }
-
-                 const topicsToPopulate = topic ? [topic] : Object.keys(containers);
-
-                 topicsToPopulate.forEach(currentTopic => {
-                     const container = containers[currentTopic];
-                     if (!container) return;
-
-                     container.innerHTML = '';
-
-                     const topicCards = flashcardData.filter(c => c.topic === currentTopic);
-                     shuffleArray(topicCards).slice(0, 9).forEach(cardData => {
-                         container.appendChild(createCardElement(cardData));
-                     });
-
-
-                     if (window.revealObserver) {
-                        container.querySelectorAll('.flashcard').forEach(el => window.revealObserver.observe(el));
-                    }
-                 });
-             }
-
-             populateFlashcards();
-
-
-            document.querySelectorAll('.shuffle-button').forEach(button => {
-                button.addEventListener('click', () => {
-                    const topic = button.dataset.topic;
-                    populateFlashcards(topic);
-
-                     const container = document.getElementById(`flashcards-${topic}`);
-                     if (container) {
-                         container.style.transition = 'opacity 0.3s ease-out';
-                         container.style.opacity = '0.5';
-                         setTimeout(() => { container.style.opacity = '1'; }, 300);
-                     }
-                });
-            });
-
-            const audioButtons = document.querySelectorAll('.play-audio-btn');
-            let currentAudio = null;
-            let currentButton = null;
-
-            audioButtons.forEach(button => {
-                const audioSrc = button.dataset.audioSrc;
-                const audioElement = button.parentElement.querySelector('audio');
-
-                if (audioSrc && audioElement) {
-
-                    audioElement.src = audioSrc;
-
-                    button.addEventListener('click', () => {
-                        if (currentAudio && currentAudio !== audioElement) {
-                            currentAudio.pause();
-                            currentAudio.currentTime = 0;
-                            if (currentButton) {
-                                currentButton.textContent = 'Play Audio Note 🎧';
-                                currentButton.style.background = 'var(--love-color)';
-                            }
-                        }
-
-                        if (audioElement.paused) {
-                            audioElement.play().then(() => {
+                            if (audioElement.paused) {
+                                audioElement.play().catch(e => console.error("Audio play failed:", e));
                                 button.textContent = 'Pause ⏸️';
                                 button.style.background = '#7dd3fc';
                                 currentAudio = audioElement;
                                 currentButton = button;
-                            }).catch(e => {
-                                console.error("Audio play failed:", e);
+                            } else {
+                                audioElement.pause();
 
+                            }
+                        });
+
+                        audioElement.addEventListener('ended', () => {
+                            button.textContent = 'Play Audio Note 🎧';
+                            button.style.background = 'var(--love-color)';
+                            currentAudio = null;
+                            currentButton = null;
+                        });
+                        audioElement.addEventListener('pause', () => {
+
+                            if (currentAudio === audioElement && !audioElement.ended) {
                                 button.textContent = 'Play Audio Note 🎧';
                                 button.style.background = 'var(--love-color)';
                                 currentAudio = null;
                                 currentButton = null;
-                            });
-                        } else {
-                            audioElement.pause();
-
-                        }
-                    });
-
-                    audioElement.addEventListener('ended', () => {
-                        button.textContent = 'Play Audio Note 🎧';
-                        button.style.background = 'var(--love-color)';
-                        currentAudio = null;
-                        currentButton = null;
-                    });
-                     audioElement.addEventListener('pause', () => {
-
-                         if (currentAudio === audioElement && !audioElement.ended) {
-                              button.textContent = 'Play Audio Note 🎧';
-                              button.style.background = 'var(--love-color)';
-                              currentAudio = null;
-                              currentButton = null;
-                         }
-                     });
-                } else {
-                    console.warn("Audio button found without valid src or audio element:", button);
-                    button.disabled = true;
-                    button.style.opacity = 0.5;
-                    button.textContent = 'Audio N/A';
-                }
-            });
-
-             const revealElements = document.querySelectorAll('.revealable');
-
-              const revealObserverOptions = {
-                    threshold: 0.05
-              };
-
-              const revealObserver = new IntersectionObserver((entries, observer) => {
-                  entries.forEach(entry => {
-
-                      if (entry.target.id === 'love-lab') return;
-
-                      if (entry.isIntersecting) {
-                          entry.target.classList.add('visible');
-                      } else {
-
-                          const rect = entry.boundingClientRect;
-                           if (rect.bottom < 0 || rect.top > window.innerHeight) {
-
-
-                           }
-                      }
-                  });
-              }, revealObserverOptions);
-
-             revealElements.forEach(el => {
-
-                   if (el.id !== 'love-lab') {
-                       revealObserver.observe(el);
-                   }
-             });
-             window.revealObserver = revealObserver;
-
-            const loveLabSection = document.getElementById('love-lab');
-            const loveLabContent = document.getElementById('love-lab-content');
-            const loveLabMessage = document.getElementById('love-lab-message');
-            const beaker = document.getElementById('beaker');
-            const elementAh = document.getElementById('element-ah');
-            const elementHa = document.getElementById('element-ha');
-            const heartContainer = document.getElementById('love-reaction-hearts');
-            const sparkleContainer = beaker ? beaker.querySelector('.beaker-sparkles') : null;
-            const beakerLiquid = beaker ? beaker.querySelector('.beaker-liquid') : null;
-
-            let droppedElements = new Set();
-            let loveLabRevealed = false;
-
-            function checkAndRevealLoveLab() {
-                 if (!checklist || !progressBarFill || !progressBarText || !loveLabSection) return;
-
-                 const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
-                 const totalTasks = checkboxes.length;
-                 const completedTasks = Array.from(checkboxes).filter(cb => cb.checked).length;
-                 const allComplete = totalTasks > 0 && completedTasks === totalTasks;
-
-                 if (allComplete && !loveLabRevealed) {
-                     loveLabSection.style.display = 'block';
-
-                     loveLabSection.offsetHeight;
-                     loveLabSection.classList.add('visible');
-                     setTimeout(() => {
-                         loveLabSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                     }, 100);
-                     loveLabRevealed = true;
-                 } else if (!allComplete && loveLabRevealed) {
-                     loveLabSection.classList.remove('visible', 'completed', 'reacting');
-                     if(beaker) beaker.classList.remove('reacting', 'drag-over');
-                     if(beakerLiquid) {
-                        beakerLiquid.style.height = '0%';
-                        beakerLiquid.style.opacity = '0';
-                     }
-                     if(loveLabMessage) {
-                        loveLabMessage.style.opacity = '0';
-                        loveLabMessage.style.transform = 'scale(0.8)';
-                     }
-                     document.body.classList.remove('love-lab-glow');
-                     droppedElements.clear();
-                     if(elementAh) elementAh.style.display = 'flex';
-                     if(elementHa) elementHa.style.display = 'flex';
-
-                     if(heartContainer) heartContainer.innerHTML = '';
-
-                     setTimeout(() => {
-                        if (!loveLabSection.classList.contains('visible')) {
-                            loveLabSection.style.display = 'none';
-                        }
-                     }, 1000);
-                     loveLabRevealed = false;
-                 }
-            }
-
-             function updateProgressBar() {
-                 if (!checklist || !progressBarFill || !progressBarText) return;
-                 const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
-                 const totalTasks = checkboxes.length;
-                 if (totalTasks === 0) return;
-
-                 const completedTasks = Array.from(checkboxes).filter(cb => cb.checked).length;
-                 const percentage = Math.round((completedTasks / totalTasks) * 100);
-
-                 progressBarFill.style.width = `${percentage}%`;
-                 progressBarText.textContent = `${percentage}% Complete`;
-
-                 checkAllGoalsComplete(completedTasks, totalTasks);
-                 checkAndRevealLoveLab();
-             }
-
-             if (elementAh && elementHa && beaker) {
-                const elements = [elementAh, elementHa];
-
-                elements.forEach(el => {
-                    if (!el) return;
-
-                    el.addEventListener('dragstart', (e) => {
-                         el.classList.add('dragging');
-                        try {
-                            e.dataTransfer.setData('text/plain', e.target.id);
-                            e.dataTransfer.setDragImage(el, 60, 60);
-                        } catch (err) {
-                            console.error("Drag start failed:", err);
-                        }
-                    });
-
-
-                    el.addEventListener('dragend', (e) => {
-                        setTimeout(() => {
-                            el.classList.remove('dragging');
-                        }, 0);
-                    });
-                });
-
-                beaker.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    beaker.classList.add('drag-over');
-                });
-
-                beaker.addEventListener('dragenter', (e) => {
-                    e.preventDefault();
-                     beaker.classList.add('drag-over');
-                });
-
-                beaker.addEventListener('dragleave', () => {
-                    beaker.classList.remove('drag-over');
-                });
-
-                beaker.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    beaker.classList.remove('drag-over');
-                     let id = null;
-                     try {
-                        id = e.dataTransfer.getData('text/plain');
-                     } catch(err) {
-                         console.error("Failed to get data transfer:", err);
-                         return;
-                     }
-
-                    const droppedElement = id ? document.getElementById(id) : null;
-
-
-                    if (droppedElement && !droppedElements.has(id) && loveLabRevealed && !loveLabSection.classList.contains('reacting')) {
-                        droppedElements.add(id);
-                         droppedElement.style.display = 'none';
-                        triggerSparkles(e.clientX, e.clientY);
-
-                        if (droppedElements.size === 2) {
-                            triggerLoveReaction();
-                        }
+                            }
+                        });
+                    } else {
+                        console.warn("Audio button found without valid src or audio element:", button);
+                        button.disabled = true;
+                        button.style.opacity = 0.5;
                     }
                 });
-             }
 
-             function triggerSparkles(x, y) {
-                 if (!sparkleContainer || !beaker) return;
-                 const beakerRect = beaker.getBoundingClientRect();
-                 for (let i = 0; i < 5; i++) {
-                     const sparkle = document.createElement('div');
-                     sparkle.classList.add('beaker-sparkle');
-                     const color = Math.random() > 0.5 ? 'var(--accent-teal)' : 'var(--highlight-blue)';
-                     sparkle.style.backgroundColor = color;
+                const revealElements = document.querySelectorAll('.revealable');
 
-                     let sparkleX = x - beakerRect.left + (Math.random() - 0.5) * 20;
-                     let sparkleY = y - beakerRect.top + (Math.random() - 0.5) * 20;
+                const revealObserverOptions = {
+                        threshold: 0.05
+                };
 
-                     sparkleX = Math.max(10, Math.min(beakerRect.width - 10, sparkleX));
-                     sparkleY = Math.max(10, Math.min(beakerRect.height - 10, sparkleY));
-
-                     sparkle.style.left = `${sparkleX}px`;
-                     sparkle.style.top = `${sparkleY}px`;
-                     sparkle.style.animationDelay = `${Math.random() * 0.2}s`;
-                     sparkleContainer.appendChild(sparkle);
-                     setTimeout(() => sparkle.remove(), 800);
-                 }
-             }
-
-             function triggerLoveReaction() {
-                if (!loveLabRevealed || !loveLabSection || loveLabSection.classList.contains('reacting') || !beaker || !beakerLiquid || !loveLabMessage) return;
-
-                loveLabSection.classList.add('reacting');
-                beaker.classList.add('reacting');
-                beakerLiquid.style.height = '65%';
-                beakerLiquid.style.opacity = '0.90';
-                document.body.classList.add('love-lab-glow');
+                const revealObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        } else {
 
 
-                const heartInterval = setInterval(() => {
-                     if (heartContainer && loveLabSection.classList.contains('reacting')) {
-                         createLoveHeart();
-                     } else {
-                         clearInterval(heartInterval);
-                     }
-                }, 100);
+                            const rect = entry.boundingClientRect;
+                            if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                                entry.target.classList.remove('visible');
+                            }
+                        }
+                    });
+                }, revealObserverOptions);
+
+                revealElements.forEach(el => {
+                    revealObserver.observe(el);
+                });
+                window.revealObserver = revealObserver;
 
 
-                setTimeout(() => {
-                    clearInterval(heartInterval);
-                    if (loveLabSection) loveLabSection.classList.remove('reacting');
-                    if (beaker) beaker.classList.remove('reacting');
-                    document.body.classList.remove('love-lab-glow');
-                    if (loveLabSection) loveLabSection.classList.add('completed');
-                }, 3500);
-             }
+            });
+        </script>
 
-             function createLoveHeart() {
-                if (!heartContainer || !loveLabContent) return;
-                 const sectionRect = loveLabContent.getBoundingClientRect();
-
-                const heart = document.createElement('span');
-                heart.classList.add('love-heart');
-                heart.textContent = Math.random() > 0.5 ? '💚' : '💙';
-
-
-                heart.style.left = `${Math.random() * 90 + 5}%`;
-                heart.style.top = `${Math.random() * 30 + 60}%`;
-
-                heart.style.fontSize = `${Math.random() * 1.5 + 1.2}rem`;
-                heart.style.animationDuration = `${Math.random() * 1.5 + 2.5}s`;
-                heartContainer.appendChild(heart);
-
-                 setTimeout(() => {
-                     heart.remove();
-                 }, 4000);
-             }
-
-            updateProgressBar();
-
-
-        });
-    </script>
-
-</body>
-</html>
+    </body>
+    </html>
